@@ -20,7 +20,7 @@
 
 这里附上GrowingIO的可视化配置截图：
 
-![GrowingIO可视化配置](/img/ha-js-sdk/GrowingIO.png)
+![GrowingIO可视化配置](/blog/img/ha-js-sdk/GrowingIO.png)
 
 ## 元素定位策略
 对于用户行为的触发单元，元素定位是必不可少的，我们需要确定到页面上的某个唯一的元素并拿到它的 ID（此处的id类似于元素的签名，并非css的id选择器），之前想要用 `XPath` 作为元素的签名，但是如果页面嵌套过深，XPath会很长，在服务记录的时候比较消耗资源，后来参考了 [whats-element](https://github.com/rowthan/whats-element 'https://github.com/rowthan/whats-element') 的方式，并做了一些优化处理。

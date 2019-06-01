@@ -6,9 +6,10 @@ module.exports = {
     port: '8080',
 	head: [
 		['link', { rel: 'icon', href: `/favicon.ico` }]
-	],
+    ],
+    base: '/blog/',
 	repo: 'https://github.com/pr1mavera/blog',
-	dest: './docs/.vuepress/dist',
+    dest: './docs/.vuepress/dist',
 	themeConfig: {
 		background: `/img/`,
 		github: 'pr1mavera',
@@ -41,6 +42,9 @@ module.exports = {
                 ''
             ],
             '/web/ha-js-sdk/': [
+                ''
+            ],
+            '/web/RxJS/': [
                 ''
             ]
         },
