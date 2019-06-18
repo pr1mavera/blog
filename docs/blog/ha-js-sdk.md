@@ -1,6 +1,15 @@
-# 可视化埋点JS-SDK技术方案
+---
+title: 可视化埋点JS-SDK技术方案
+date: 2019-04-29
+tags: 
+ - 随便写写
+---
 
-<font color=#ddd>pr1mavera 2019-05-05</font>
+<!-- more -->
+
+<!-- # 可视化埋点JS-SDK技术方案 -->
+
+<!-- <font color=#ddd>pr1mavera 2019-05-05</font> -->
 
 ## 感性认识
 现阶段对于用户行为收集的方式，大抵分为三种：
