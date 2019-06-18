@@ -8,7 +8,7 @@ module.exports = {
         ['link', { rel: 'icon', href: `/favicon.ico` }],
         ['meta', { name: 'viewport', content: 'width=device-width,initial-scale=1,user-scalable=no' }]
     ],
-    base: '/',
+    base: '/blog/',
     repo: 'https://github.com/pr1mavera/blog',
     dest: './docs/.vuepress/dist',
     theme: 'reco',
@@ -28,9 +28,16 @@ module.exports = {
         //     '/blog/RxJS'
         // ],
         sidebar: {
-            '/blog/urlToPage': ['urlToPage'],
-            '/blog/ha-js-sdk': ['ha-js-sdk'],
-            '/blog/RxJS': ['RxJS']
+            '/whatever/urlToPage': ['urlToPage'],
+            '/whatever/ha-js-sdk': ['ha-js-sdk'],
+            '/whatever/RxJS': ['RxJS'],
+            '/1.yd-pre/': [
+                '1.you-dont-know-html',
+                '2.high-css',
+                '3.ES5-core',
+                '4.jQuery-core',
+                '5.back-end',
+            ]
         },
         nav: [
             { text: '随便写写', link: '/tag/?tag=随便写写', icon: 'reco-blog' },
