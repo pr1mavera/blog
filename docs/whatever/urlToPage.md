@@ -13,7 +13,7 @@ tags:
 
 <!-- <font color=#ddd>pr1mavera 2019-04-28</font> -->
 
-![banner](/img/urlToPage/banner.jpg)
+![banner](/blog/img/urlToPage/banner.jpg)
 
 第一次写博客，紧脏的一匹😂。。
 
@@ -60,7 +60,7 @@ HTTP 协议是基于 TCP 协议出现的，对 TCP 协议来说，TCP 协议是�
 > Host: www.baidu.com
 ```
 连续敲两次回车之后，我们会看到这样的提示：
-![Telnet](/img/urlToPage/telnet.jpeg)
+![Telnet](/blog/img/urlToPage/telnet.jpeg)
 
 这就是一次完整的 HTTP 请求的过程了，我们可以看到，在TCP通道中传输的，完全是**文本**。  
 在 `request` 部分，第一行被称作 `request line`，它分为三个部分，HTTP Method，也就是请求的“方法”，请求的“方法”，请求的路径和请求的协议和版本。  
@@ -68,7 +68,7 @@ HTTP 协议是基于 TCP 协议出现的，对 TCP 协议来说，TCP 协议是�
 紧随在 `request line` 或者 `response line` 之后，是请求头 / 响应头，这些头由若干行组成，每行是用冒号分隔的名称和值。在头之后，以一个空行（两个换行符）为分隔，是请求体 / 响应体，请求体可能包含文件或者表单数据，响应体则是 html 代码。
 
 也就是下面这个样子：
-![requestAndResponse](/img/urlToPage/requestAndResponse.jpg)
+![requestAndResponse](/blog/img/urlToPage/requestAndResponse.jpg)
 
 <!-- ### HTTP Method
 先说一下 `request line` 里面的方法部分，这里的方法跟我们编程中的方法意义类似，表示我们此次 HTTP 请求希望执行的操作类型。
@@ -94,7 +94,7 @@ OPTIONS 和 TRACE 一般用于调试，多数线上服务都不支持。 -->
 ### 拆分
 拆解的过程类似于在文本的合适位置做切割，一个标准的文本 `<p class="a">text</p>` 会被拆成这样几个词： `<p` `class="a"` `>` `text` `</` `>`。
 
-![token](/img/urlToPage/token.png)
+![token](/blog/img/urlToPage/token.png)
 
 实际上，我们**每读入一个字符**，其实都要做一次决策，而且这些决定是跟“当前状态”有关的。在这样的条件下，浏览器工程师要想实现把字符流解析成词（token），最常见的方案就是使用状态机。
 

@@ -31,13 +31,11 @@ module.exports = {
             '/whatever/urlToPage': ['urlToPage'],
             '/whatever/ha-js-sdk': ['ha-js-sdk'],
             '/whatever/RxJS': ['RxJS'],
-            '/1.yd-pre/': [
-                '1.you-dont-know-html',
-                '2.high-css',
-                '3.ES5-core',
-                '4.jQuery-core',
-                '5.back-end',
-            ]
+            '/1.yd-pre/1.you-dont-know-html': ['1.you-dont-know-html'],
+            '/1.yd-pre/2.high-css': ['2.high-css'],
+            '/1.yd-pre/3.ES6-base': ['3.ES6-base'],
+            '/1.yd-pre/4.jQuery-core': ['4.jQuery-core'],
+            '/1.yd-pre/5.back-end': ['5.back-end']
         },
         nav: [
             { text: '随便写写', link: '/tag/?tag=随便写写', icon: 'reco-blog' },
