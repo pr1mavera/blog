@@ -26,7 +26,8 @@ module.exports = {
             '/whatever/urlToPage': ['urlToPage'],
             '/whatever/ha-js-sdk': ['ha-js-sdk'],
             '/whatever/RxJS': ['RxJS'],
-            '/whatever/video-server': ['video-server']
+            '/whatever/video-server': ['video-server'],
+            '/whatever/cude-ui': ['cude-ui'],
         }
     }
 }
