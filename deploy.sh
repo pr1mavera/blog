@@ -13,6 +13,6 @@ git init
 git add -A
 git commit -m 'deploy'
 
-git push -f https://github.com/pr1mavera/blog.git master:gh-pages
+git push --force https://github.com/pr1mavera/blog.git master:gh-pages
 
 cd -
