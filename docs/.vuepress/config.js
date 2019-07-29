@@ -28,6 +28,7 @@ module.exports = {
             '/whatever/RxJS': ['RxJS'],
             '/whatever/video-server': ['video-server'],
             '/whatever/cude-ui': ['cude-ui'],
+            '/whatever/MV*': ['MV*'],
         }
     }
 }
