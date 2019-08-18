@@ -39,11 +39,131 @@ cube-ui可以通过 `create-api` 很方便的自定义组件，可以配合现�
 后编译是cube-ui特有的一个十分重要的特性，其官方文档解释了这项特性的背景：
 > 使用 webpack + babel 开发应用越来越多，而且一般都是通过 NPM 进行包管理的，这样依赖包越来越多，这些依赖包也是使用的 ES2015+ 开发的，所以每个依赖包都需要编译才能发布，这样编译后代码中往往后包含很多编译代码，所以为了消除这部分冗余，推荐大家使用后编译。
 
+相当于是我们在使用UI组件进行开发的时候引入的都是编译好的库文件，虽然可能这些组件库内部实现了一些按需引入的能力，但依旧存在一些冗余，更重要的是**对于二次开发来讲不是特别友好**，我们为了适配自己项目的业务逻辑，可能都需要做一些暴力的工作比如强行覆盖一些样式、包装一些组件内部行为之类的。  
+然而如果我们能直接通过引入源码级的组件，甚至是将组件库本身作为基础库，拓展一些额外的行为来适配我们自己的项目，这样对于项目的开发成本、项目发布时候的编译优化、组内UI库的迭代，各方面都是有一定帮助的。**相当于是拿到人家的源代码来编写自己的项目，真正做到源码级发布**。
+
 ## 二次开发
-前端UI组件的选型，我们最关心的就是二次开发的问题，无论从降低开发、维护成本的角度，还是从大团队内使用体验的角度，都存在一定的挑战，这就要求基础组件库在兼容性、可访问性、拓展性等方面比较完备。
+这里我通过一个例子模拟一下现有项目集成 `cube-ui` 进行二次开发的流程。  
+由于只是为了演示集成过程，我们假设原有项目通过 `vue-cli` 构建，并从这个基础上集成 `cube-ui` 。
 
-下面给出一种常见场景，我们用cube-ui进行开发，简单体验一下使用cube-ui进行二次开发。
+### 下载依赖
+首先是 `cube-ui` ，我们将其声明在dependencies中：
+```shell
+npm install cube-ui --save
+```
 
-## 其他
+然后我们需要为后编译添加几个插件和申明：
+
+### 引入路径替换
+我们需要一个插件
+```shell
+npm install babel-plugin-transform-modules --save-dev
+```
+`babel-plugin-transform-modules` 这是个用来解决组件按需引入的问题的插件，举个例子：
+我们按需引入组件的时候一般这样去写：
+```js
+import { Button } from 'cube-ui'
+```
+这样如果不做任何配置的话根据package.json中定义的main入口："lib/index.js"，引入的就是 `cube-ui` 编译之后的组件了，这并不是我们想要的对吧，所以需要统一做路径替换，修改 `.babelrc` ：
+```js
+// .babelrc
+
+{
+    "plugins": [
+        ["transform-modules", {
+            "cube-ui": {
+                // 注意: 这里的路径需要修改到 src/modules 下
+                "transform": "cube-ui/src/modules/${member}",
+                "kebabCase": true
+            }
+        }]
+    ]
+}
+```
+这样相当于引入的就是这个路径的文件了：
+```js
+import Button from 'cube-ui/src/modules/button'
+```
+这样做还有一个好处就是可以做到**后编译和非后编译自由替换**！
+
+### stylus-loader
+`cube-ui` 源码的 css 部分使用了 `stylus` 预处理器
+```shell
+npm install stylus stylus-loader --save-dev
+```
+
+### 添加编译
+既然是后编译，我们自然需要将编译流程挂载到自身项目上来，这里需要用到一个插件：`webpack-post-compile-plugin`，就是为了解决后编译问题的
+```shell
+npm install webpack-post-compile-plugin --save-dev
+```
+
+**说说这个流程：**  
+首先因为webpack配置中是声明了不编译 `node_modules` 目录下的内容的，但是我们的 `cube-ui` 是存放在 `node_modules` 中的，所以要在webpack配置中显示include我们的 `cube-ui` 模块
+```js
+// webpack.base.conf.js
+
+// ...
+{
+    test: /\.js$/,
+    loader: 'babel-loader',
+    include: [resolve('src'), resolve('node_modules/cube-ui')]
+}
+// ...
+```
+但是这样做还存在一个问题，就是如果 `cube-ui` 一旦也后编译依赖其它模块，作为编译的应用方也需要把它们显示地写进 include 里，但这显然是不合理的，因为应用不应该知道 `cube-ui` 依赖的模块，每个模块只应该声明它自身的后编译依赖即可。那么 `webpack-post-compile-plugin` 就是来解决这个问题的，它会读取每个模块 package.json 文件中声明的 `compileDependencies` ，并递归去查找后编译依赖，然后添加到应用 webpack 配置的 include 中，所以在我们应用项目中的 package.json 文件中，我们指定了 `compileDependencies` 为 `[cube-ui]`：
+```js
+// package.json
+
+// ...
+"compileDependencies": ["cube-ui"],
+// ...
+```
+最后我们需要将PostCompilePlugin插件注册到webpack配置中
+```js
+const PostCompilePlugin = require('webpack-post-compile-plugin')
+module.exports = {
+    // ...
+    plugins: [
+        // ...
+        new PostCompilePlugin()
+    ]
+    // ...
+}
+```
+
+这样我们就完成了原有项目集成 `cube-ui` 的相关配置，下面我们来修改一下 `Button` 组件的源码，看看有什么效果：
+
+### 修改源码
+
+首先我们引入 `Button` 组件：
+```js
+// HelloWorld.vue
+
+import { Button } from 'cube-ui'
+
+export default {
+    //   ...
+    components: {
+        'cube-button': Button
+    },
+    // ...
+}
+```
+在模板中使用：
+```html
+<cube-button icon="cubeic-right">Button With Icon</cube-button>
+```
+
+可以看到效果：
+![button](/blog/img/cube-ui/button.jpeg)
+
+接下来我们更改 `Button` 组件的源码，再点击的时候弹出 1234：
+![alert](/blog/img/cube-ui/alert.jpeg)
+
+现在我们点击按钮，便可以看到弹出：
+![view](/blog/img/cube-ui/view.jpeg)
+
+这样我们就从组件内部，做到了源码层面的更改和封装。
 
 ## 总结

@@ -29,6 +29,8 @@ module.exports = {
             '/whatever/video-server': ['video-server'],
             '/whatever/cude-ui': ['cude-ui'],
             '/whatever/MV*': ['MV*'],
+            '/whatever/函数式编程学习笔记': ['函数式编程学习笔记'],
+            '/FE-notes/继承与原型': ['继承与原型']
         }
     }
 }
