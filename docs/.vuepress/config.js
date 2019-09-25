@@ -29,7 +29,7 @@ module.exports = {
             '/whatever/video-server': ['video-server'],
             '/whatever/cude-ui': ['cude-ui'],
             '/whatever/MV*': ['MV*'],
-            '/whatever/函数式编程学习笔记': ['函数式编程学习笔记'],
+            '/FE-notes/函数式编程学习笔记': ['函数式编程学习笔记'],
             '/whatever/记一次算法在前端某业务场景的实际应用': ['记一次算法在前端某业务场景的实际应用'],
             '/FE-notes/继承与原型': ['继承与原型'],
             '/FE-notes/正则': ['正则'],
