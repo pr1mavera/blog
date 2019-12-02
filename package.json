@@ -11,9 +11,8 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "vuepress": "^1.0.0-rc.1"
+    "vuepress": "^1.2.0",
+    "vuepress-theme-reco": "^1.1.1"
   },
-  "dependencies": {
-    "vuepress-theme-reco": "^1.0.0-alpha.23"
-  }
+  "dependencies": {}
 }
