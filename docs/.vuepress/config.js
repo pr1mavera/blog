@@ -68,7 +68,9 @@ module.exports = {
                     title: '编译原理',
                     sidebarDepth: 3,
                     collapsable: false,
-                    children: []
+                    children: [
+                        '/FE-Foundation/计算机科学基础/babel基础',
+                    ]
                 },
                 {
                     title: '编程范式',
@@ -130,6 +132,7 @@ module.exports = {
                 },
                 '/FE-Foundation/手写代码/bind',
                 '/FE-Foundation/手写代码/call&apply',
+                '/FE-Foundation/手写代码/拷贝',
                 '/FE-Foundation/手写代码/curry',
                 '/FE-Foundation/手写代码/compose',
                 '/FE-Foundation/手写代码/deepFreeze'

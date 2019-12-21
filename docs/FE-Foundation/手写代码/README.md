@@ -10,6 +10,7 @@ title: 手写代码
 + [typeof](/FE-Foundation/手写代码/typeof)
 + [instanceof](/FE-Foundation/手写代码/instanceof)
 + [JSON.stringify](/FE-Foundation/手写代码/JSON.stringify)
++ [拷贝](/FE-Foundation/手写代码/拷贝)
 + [curry](/FE-Foundation/手写代码/curry)
 + [compose](/FE-Foundation/手写代码/compose)
 + [debounce & throttle](/FE-Foundation/手写代码/debounce&throttle)

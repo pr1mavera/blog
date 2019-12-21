@@ -275,30 +275,49 @@ ES6 引入了块级作用域的概念，由一对大括号界定（`{}` 会被�
 + for
 + 使用 const / let 声明变量对块级作用域有效
 
-#### 关于函数提升
-::: warning 有一个特别需要注意的点：
-若函数声明包裹在 <u>**块级作用域内**</u>，根据最新的协议，函数将只提升函数名，不提升函数体 !!!
-:::
+#### 块级作用域内的函数提升
++ 会提升**整体**到「块内」的顶部
++ 同时会提升**变量声明**至「块外」的顶部，类似于 `var` ，此时值为 `undefined`
++ 提升至「块外」的变量，会 <u>**依照词法阶段的顺序在引擎执行到该函数声明时将当前「块内」该变量的值映射（link）至「块外」的变量**</u> 
 
 因此会产生以下行为：
 ``` js
-a();
-if (false) {
-    function a() {
-        console.log('函数a')
-    }
-}
-
-// 可以理解为以上代码将被预编译为（伪代码）
-function a;
+console.log('1', a, window.a); /*       1 undefined undefined */
 a(); // TypeError: a is not a function
-if (false) {
-    a = function() {
-        console.log('函数a')
-    }
+{
+    console.log('2', a, window.a); /*   2 function a(){} undefined */
+    function a(){} // 映射（link）当前该变量的值至块外作用域
 }
+console.log('3', a, window.a); /*       3 function a(){} function a(){} */
+```
 
-// 因此报错 TypeError: a is not a function
+#### 块级作用域内存在同名的函数和默认变量
+PS : 默认变量 - 在没有声明的情况下直接向变量赋值，类似于 `a = 1;`
+
+关注以下行为：
+``` js
+console.log('1', a, window.a); /*       1 undefined undefined */
+{
+    console.log('2', a, window.a); /*   2 function a(){} undefined */
+    function a(){} // 映射（link）当前该变量的值至块外作用域
+    console.log('3', a, window.a); /*   3 function a(){} function a(){} */
+    a = 50; // 此时只单纯的对块内的默认变量赋值，对块外的 window.a 无影响
+    console.log('4', a, window.a); /*   4 50 function a(){} */
+}
+console.log('5', a, window.a); /*       5 function a(){} fuction a(){} */
+```
+``` js
+console.log('1', a, window.a); /*       1 undefined undefined */
+{
+    console.log('2', a, window.a); /*   2 function a(){} undefined */
+    function a(){} // 映射（link）当前该变量的值至块外作用域
+    console.log('3', a, window.a); /*   3 function a(){} function a(){} */
+    a = 50; // 此时只单纯的对块内的默认变量赋值，对块外的 window.a 无影响
+    console.log('4', a, window.a); /*   4 50 function a(){} */
+    function a(){} // 增加一个声明，再次映射（link）当前该变量的值至块外作用域
+    console.log('5', a, window.a); /*   5 50 50 */
+}
+console.log('6', a, window.a); /*       6 50 50 */
 ```
 
 ### this
