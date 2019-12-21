@@ -11,8 +11,18 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/koa-router": "^7.0.42",
+    "ts-node": "^8.5.4",
     "vuepress": "^1.2.0",
     "vuepress-theme-reco": "^1.1.1"
   },
-  "dependencies": {}
+  "dependencies": {
+    "inversify": "^5.0.1",
+    "inversify-binding-decorators": "^4.0.0",
+    "inversify-koa-utils": "^1.0.0",
+    "koa": "^2.11.0",
+    "koa-router": "^7.4.0",
+    "reflect-metadata": "^0.1.13",
+    "typescript": "^3.7.4"
+  }
 }
