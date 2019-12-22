@@ -1,0 +1,44 @@
+[2019-12-22T18:50:04.285] [ERROR] cheese - TypeError: Class constructor LRUCache cannot be invoked without 'new'
+    at IndexService.init (/Users/Primavera/git/blog/dist/services/IndexService.js:30:14)
+    at IndexController.actionIndex (/Users/Primavera/git/blog/dist/controllers/IndexController.js:23:29)
+    at memberInvoker (/Users/Primavera/git/blog/node_modules/awilix-koa/lib/invokers.js:85:45)
+    at dispatch (/Users/Primavera/git/blog/node_modules/koa-compose/index.js:42:32)
+    at /Users/Primavera/git/blog/node_modules/@koa/router/lib/router.js:353:16
+    at dispatch (/Users/Primavera/git/blog/node_modules/koa-compose/index.js:42:32)
+    at /Users/Primavera/git/blog/node_modules/koa-compose/index.js:34:12
+    at dispatch (/Users/Primavera/git/blog/node_modules/@koa/router/lib/router.js:358:31)
+    at dispatch (/Users/Primavera/git/blog/node_modules/koa-compose/index.js:42:32)
+    at /Users/Primavera/git/blog/node_modules/koa-compose/index.js:34:12
+[2019-12-22T18:52:21.395] [ERROR] cheese - Error: Content placeholder not found in template.
+    at parseTemplate (/Users/Primavera/git/blog/node_modules/vue-server-renderer/build.dev.js:8773:11)
+    at new TemplateRenderer (/Users/Primavera/git/blog/node_modules/vue-server-renderer/build.dev.js:8866:9)
+    at createRenderer (/Users/Primavera/git/blog/node_modules/vue-server-renderer/build.dev.js:9131:26)
+    at createRenderer$1 (/Users/Primavera/git/blog/node_modules/vue-server-renderer/build.dev.js:9589:10)
+    at createBundleRenderer (/Users/Primavera/git/blog/node_modules/vue-server-renderer/build.dev.js:9506:20)
+    at IndexService.init (/Users/Primavera/git/blog/dist/services/IndexService.js:26:69)
+    at IndexController.actionIndex (/Users/Primavera/git/blog/dist/controllers/IndexController.js:23:29)
+    at memberInvoker (/Users/Primavera/git/blog/node_modules/awilix-koa/lib/invokers.js:85:45)
+    at dispatch (/Users/Primavera/git/blog/node_modules/koa-compose/index.js:42:32)
+    at /Users/Primavera/git/blog/node_modules/@koa/router/lib/router.js:353:16
+[2019-12-22T18:54:57.844] [ERROR] cheese - Error: Content placeholder not found in template.
+    at parseTemplate (/Users/Primavera/git/blog/node_modules/vue-server-renderer/build.dev.js:8773:11)
+    at new TemplateRenderer (/Users/Primavera/git/blog/node_modules/vue-server-renderer/build.dev.js:8866:9)
+    at createRenderer (/Users/Primavera/git/blog/node_modules/vue-server-renderer/build.dev.js:9131:26)
+    at createRenderer$1 (/Users/Primavera/git/blog/node_modules/vue-server-renderer/build.dev.js:9589:10)
+    at createBundleRenderer (/Users/Primavera/git/blog/node_modules/vue-server-renderer/build.dev.js:9506:20)
+    at IndexService.init (/Users/Primavera/git/blog/dist/services/IndexService.js:26:69)
+    at IndexController.actionIndex (/Users/Primavera/git/blog/dist/controllers/IndexController.js:23:29)
+    at memberInvoker (/Users/Primavera/git/blog/node_modules/awilix-koa/lib/invokers.js:85:45)
+    at dispatch (/Users/Primavera/git/blog/node_modules/koa-compose/index.js:42:32)
+    at /Users/Primavera/git/blog/node_modules/@koa/router/lib/router.js:353:16
+[2019-12-22T18:57:32.188] [ERROR] cheese - Error: Content placeholder not found in template.
+    at parseTemplate (/Users/Primavera/git/blog/node_modules/vue-server-renderer/build.dev.js:8773:11)
+    at new TemplateRenderer (/Users/Primavera/git/blog/node_modules/vue-server-renderer/build.dev.js:8866:9)
+    at createRenderer (/Users/Primavera/git/blog/node_modules/vue-server-renderer/build.dev.js:9131:26)
+    at createRenderer$1 (/Users/Primavera/git/blog/node_modules/vue-server-renderer/build.dev.js:9589:10)
+    at createBundleRenderer (/Users/Primavera/git/blog/node_modules/vue-server-renderer/build.dev.js:9506:20)
+    at IndexService.init (/Users/Primavera/git/blog/dist/services/IndexService.js:26:69)
+    at IndexController.actionIndex (/Users/Primavera/git/blog/dist/controllers/IndexController.js:23:29)
+    at memberInvoker (/Users/Primavera/git/blog/node_modules/awilix-koa/lib/invokers.js:85:45)
+    at dispatch (/Users/Primavera/git/blog/node_modules/koa-compose/index.js:42:32)
+    at /Users/Primavera/git/blog/node_modules/@koa/router/lib/router.js:353:16

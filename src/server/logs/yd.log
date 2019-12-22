@@ -1,0 +1,22 @@
+[2019-08-23T21:19:40.742] [ERROR] cheese - ReferenceError: aaa is not defined
+    at actionIndex (/Users/yuanzhijia/Desktop/yd-bookscode/controllers/BooksController.js:6:21)
+    at dispatch (/Users/yuanzhijia/Library/Caches/Yarn/v4/npm-koa-simple-router-0.2.0-29ba92f187107d6838c77ac24b7a473a151c7a94/node_modules/koa-simple-router/index.js:186:18)
+    at Router._lookup (/Users/yuanzhijia/Library/Caches/Yarn/v4/npm-koa-simple-router-0.2.0-29ba92f187107d6838c77ac24b7a473a151c7a94/node_modules/koa-simple-router/index.js:198:12)
+    at /Users/yuanzhijia/Library/Caches/Yarn/v4/npm-koa-simple-router-0.2.0-29ba92f187107d6838c77ac24b7a473a151c7a94/node_modules/koa-simple-router/index.js:138:21
+    at dispatch (/Users/yuanzhijia/Library/Caches/Yarn/v4/npm-koa-compose-4.1.0-507306b9371901db41121c812e923d0d67d3e877/node_modules/koa-compose/index.js:42:32)
+    at app.use (/Users/yuanzhijia/Desktop/yd-bookscode/middlewares/errorHandler.js:13:19)
+    at dispatch (/Users/yuanzhijia/Library/Caches/Yarn/v4/npm-koa-compose-4.1.0-507306b9371901db41121c812e923d0d67d3e877/node_modules/koa-compose/index.js:42:32)
+    at app.use (/Users/yuanzhijia/Desktop/yd-bookscode/middlewares/errorHandler.js:5:23)
+    at dispatch (/Users/yuanzhijia/Library/Caches/Yarn/v4/npm-koa-compose-4.1.0-507306b9371901db41121c812e923d0d67d3e877/node_modules/koa-compose/index.js:42:32)
+    at serve (/Users/yuanzhijia/Library/Caches/Yarn/v4/npm-koa-static-5.0.0-5e92fc96b537ad5219f425319c95b64772776943/node_modules/koa-static/index.js:53:15)
+[2019-08-23T21:20:14.211] [ERROR] cheese - ReferenceError: aaa is not defined
+    at actionIndex (/Users/yuanzhijia/Desktop/yd-bookscode/controllers/BooksController.js:6:21)
+    at dispatch (/Users/yuanzhijia/Library/Caches/Yarn/v4/npm-koa-simple-router-0.2.0-29ba92f187107d6838c77ac24b7a473a151c7a94/node_modules/koa-simple-router/index.js:186:18)
+    at Router._lookup (/Users/yuanzhijia/Library/Caches/Yarn/v4/npm-koa-simple-router-0.2.0-29ba92f187107d6838c77ac24b7a473a151c7a94/node_modules/koa-simple-router/index.js:198:12)
+    at /Users/yuanzhijia/Library/Caches/Yarn/v4/npm-koa-simple-router-0.2.0-29ba92f187107d6838c77ac24b7a473a151c7a94/node_modules/koa-simple-router/index.js:138:21
+    at dispatch (/Users/yuanzhijia/Library/Caches/Yarn/v4/npm-koa-compose-4.1.0-507306b9371901db41121c812e923d0d67d3e877/node_modules/koa-compose/index.js:42:32)
+    at app.use (/Users/yuanzhijia/Desktop/yd-bookscode/middlewares/errorHandler.js:13:19)
+    at dispatch (/Users/yuanzhijia/Library/Caches/Yarn/v4/npm-koa-compose-4.1.0-507306b9371901db41121c812e923d0d67d3e877/node_modules/koa-compose/index.js:42:32)
+    at app.use (/Users/yuanzhijia/Desktop/yd-bookscode/middlewares/errorHandler.js:5:23)
+    at dispatch (/Users/yuanzhijia/Library/Caches/Yarn/v4/npm-koa-compose-4.1.0-507306b9371901db41121c812e923d0d67d3e877/node_modules/koa-compose/index.js:42:32)
+    at serve (/Users/yuanzhijia/Library/Caches/Yarn/v4/npm-koa-static-5.0.0-5e92fc96b537ad5219f425319c95b64772776943/node_modules/koa-static/index.js:53:15)
