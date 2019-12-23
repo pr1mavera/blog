@@ -11,10 +11,10 @@ export function createRouter() {
         mode: 'history',
         base: '/home/',
         routes: [
-            {
-                path: '*',
-                redirect: '/',
-            },
+            // {
+            //     path: '*',
+            //     redirect: '/',
+            // },
             {
                 path: '/',
                 name: 'home',
@@ -31,7 +31,7 @@ export function createRouter() {
                 component: () => import('@/webapp/components/Component2.vue')
             },
             {
-                path: '/topics',
+                path: '/topics/:aid',
                 name: 'topics',
                 component: Topics
             },

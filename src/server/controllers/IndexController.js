@@ -11,7 +11,7 @@ class IndexController {
     @route('/index.html')
     @route('/component1')
     @route('/component2')
-    @route('/topics')
+    @route('/topics/*')
     @GET()
     async actionIndex(ctx) {
         console.log('IndexController');

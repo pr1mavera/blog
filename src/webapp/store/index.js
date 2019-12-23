@@ -20,7 +20,8 @@ if (isClientProdEnv) {
 // 初始化state
 const defaultState = {
     count: 0,
-    topics: []
+    topics: [],
+    articleContent: ''
 }
 
 // node层 渲染时，需要知道前端哪些请求是异步加载的，后端统一处理完成之后合并，再一次性返回给前端

@@ -26,18 +26,25 @@ const webpackConfig = {
         modules: [
             resolve(__dirname, 'node_modules')
         ],
-        extensions: [ '.js', '.css', '.vue' ]
+        extensions: ['.js', '.css', '.vue']
     },
     module: {
         rules: [
             {
                 test: /\.vue$/,
                 loader: 'vue-loader'
+            },
+            {
+                test: /\.css$/,
+                use: [
+                    'vue-style-loader',
+                    'css-loader'
+                ]
             }
         ]
     },
     optimization: {
-        
+
     },
     plugins: [
         new VueLoaderPlugin()

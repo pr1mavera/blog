@@ -42,3 +42,35 @@
     at memberInvoker (/Users/Primavera/git/blog/node_modules/awilix-koa/lib/invokers.js:85:45)
     at dispatch (/Users/Primavera/git/blog/node_modules/koa-compose/index.js:42:32)
     at /Users/Primavera/git/blog/node_modules/@koa/router/lib/router.js:353:16
+[2019-12-23T23:13:32.756] [ERROR] cheese - AwilixResolutionError: Could not resolve 'MDService'.
+
+Resolution path: MDService
+    at resolve (/Users/Primavera/git/blog/node_modules/awilix/lib/container.js:238:23)
+    at Object.get (/Users/Primavera/git/blog/node_modules/awilix/lib/container.js:65:32)
+    at new ArticleListController (/Users/Primavera/git/blog/dist/controllers/ArticleListController.js:16:5)
+    at newClass (/Users/Primavera/git/blog/node_modules/awilix/lib/resolvers.js:85:24)
+    at Object.resolve (/Users/Primavera/git/blog/node_modules/awilix/lib/resolvers.js:294:20)
+    at Object.build (/Users/Primavera/git/blog/node_modules/awilix/lib/container.js:311:37)
+    at memberInvoker (/Users/Primavera/git/blog/node_modules/awilix-koa/lib/invokers.js:83:38)
+    at dispatch (/Users/Primavera/git/blog/node_modules/koa-compose/index.js:42:32)
+    at /Users/Primavera/git/blog/node_modules/@koa/router/lib/router.js:353:16
+    at dispatch (/Users/Primavera/git/blog/node_modules/koa-compose/index.js:42:32)
+[2019-12-23T23:14:38.583] [ERROR] cheese - AwilixResolutionError: Could not resolve 'mDService'.
+
+Resolution path: mDService
+    at resolve (/Users/Primavera/git/blog/node_modules/awilix/lib/container.js:238:23)
+    at Object.get (/Users/Primavera/git/blog/node_modules/awilix/lib/container.js:65:32)
+    at new ArticleListController (/Users/Primavera/git/blog/dist/controllers/ArticleListController.js:16:5)
+    at newClass (/Users/Primavera/git/blog/node_modules/awilix/lib/resolvers.js:85:24)
+    at Object.resolve (/Users/Primavera/git/blog/node_modules/awilix/lib/resolvers.js:294:20)
+    at Object.build (/Users/Primavera/git/blog/node_modules/awilix/lib/container.js:311:37)
+    at memberInvoker (/Users/Primavera/git/blog/node_modules/awilix-koa/lib/invokers.js:83:38)
+    at dispatch (/Users/Primavera/git/blog/node_modules/koa-compose/index.js:42:32)
+    at /Users/Primavera/git/blog/node_modules/@koa/router/lib/router.js:353:16
+    at dispatch (/Users/Primavera/git/blog/node_modules/koa-compose/index.js:42:32)
+[2019-12-23T23:15:28.538] [ERROR] cheese - TypeError: mdMap.reduce is not a function
+    at ArticleListController.getArticle (/Users/Primavera/git/blog/dist/controllers/ArticleListController.js:25:27)
+[2019-12-23T23:16:22.869] [ERROR] cheese - TypeError: temp.push is not a function
+    at Object.keys.reduce (/Users/Primavera/git/blog/dist/controllers/ArticleListController.js:25:67)
+    at Array.reduce (<anonymous>)
+    at ArticleListController.getArticle (/Users/Primavera/git/blog/dist/controllers/ArticleListController.js:25:40)

@@ -3,6 +3,7 @@ import App from './App';
 import { createRouter } from './router';
 import { createStore } from './store';
 import { sync } from 'vuex-router-sync'
+import 'highlight.js/styles/solarized-dark.css';
 
 export function createApp() {
     // 每次都动态构建
