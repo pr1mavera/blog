@@ -9,9 +9,7 @@ class IndexController {
 
     @route('/')
     @route('/index.html')
-    @route('/component1')
-    @route('/component2')
-    @route('/topics/*')
+    @route('/article/*')
     @GET()
     async actionIndex(ctx) {
         console.log('IndexController');

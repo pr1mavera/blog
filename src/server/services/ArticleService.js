@@ -1,5 +1,4 @@
 import fs from 'fs';
-import path from 'path';
 import marked from 'marked';
 import hljs from 'highlight.js';
 // import 'highlight.js/styles/default.css';

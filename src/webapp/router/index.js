@@ -1,8 +1,8 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Home from '@/webapp/components/Home.vue';
-import Component1 from '@/webapp/components/Component1.vue';
-import Topics from '@/webapp/components/Topics.vue';
+// import Home from '@/webapp/components/Home.vue';
+// import Component1 from '@/webapp/components/Component1.vue';
+// import Article from '@/webapp/components/Article.vue';
 
 Vue.use(Router);
 
@@ -18,22 +18,19 @@ export function createRouter() {
             {
                 path: '/',
                 name: 'home',
-                component: Home
+                component: () => import('@/webapp/components/Home.vue')
             },
             {
-                path: '/component1',
-                name: 'component1',
-                component: Component1
-            },
-            {
-                path: '/component2',
-                name: 'component2',
-                component: () => import('@/webapp/components/Component2.vue')
-            },
-            {
-                path: '/topics/:aid',
-                name: 'topics',
-                component: Topics
+                path: '/article',
+                component: () => import('@/webapp/components/Article.vue'),
+                children: [
+                    {
+                        path: '/article/:aid',
+                        name: 'Article',
+                        component: () => import('@/webapp/components/Article.vue')
+                    }
+                ]
+                
             },
         ]
     });

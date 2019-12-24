@@ -20,7 +20,7 @@ if (isClientProdEnv) {
 // 初始化state
 const defaultState = {
     count: 0,
-    topics: [],
+    articleMap: {},
     articleContent: ''
 }
 

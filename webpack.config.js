@@ -1,15 +1,41 @@
 const argv = require('yargs-parser')(process.argv.slice(2));
 const merge = require('webpack-merge');
 const { resolve, join } = require('path');
-let _mode = '';
-if (argv.env == 'server') {
-    _mode = 'server';
-} else {
-    _mode = argv.mode || 'development';
-}
+const _mode = argv.env == 'server' ? 'server' : (argv.mode || 'development');
+const _isProd = _mode == 'production';
 const _modeFlag = _mode == 'development' ? true : false;
 const _mergeConfig = require(`./config/webpack.${_mode}.config.js`);
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
+
+const vueLoaderConfig = [
+    {
+        loader: 'postcss-loader',
+        options: {
+            sourceMap: !_isProd,
+            plugins: () => [
+                require('autoprefixer')({
+                    browsers: require('./package.json').browserslist
+                }),
+                require('postcss-pxtorem')({
+                    rootValue: '16',
+                    propList: ['*'],
+                    minPixelValue: 2
+                })
+            ]
+        }
+    }, {
+        loader: 'css-loader',
+        options: {
+            minimize: _isProd,
+            sourceMap: !_isProd
+        }
+    }, {
+        loader: 'less-loader',
+        options: {
+            sourceMap: !_isProd
+        }
+    }
+];
 
 const webpackConfig = {
     watch: _modeFlag,
@@ -32,7 +58,21 @@ const webpackConfig = {
         rules: [
             {
                 test: /\.vue$/,
-                loader: 'vue-loader'
+                loader: 'vue-loader',
+                options: {
+                    loaders: {
+                        less: _isProd
+                            ? ExtractTextPlugin.extract({
+                                use: vueLoaderConfig,
+                                fallback: 'vue-style-loader'
+                            })
+                            : ['vue-style-loader'].concat(vueLoaderConfig)
+                    }
+                }
+            },
+            {
+                test: /\.less$/,
+                use: [ 'vue-style-loader', 'css-loader', 'less-loader' ]
             },
             {
                 test: /\.css$/,
