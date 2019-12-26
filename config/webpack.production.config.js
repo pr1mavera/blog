@@ -11,7 +11,7 @@ module.exports = {
     entry: [rootPath + 'src/webapp/entry-client.js'],
     output: {
         path: rootPath + '/dist/assets/',
-        publicPath: '/',
+        publicPath: '/blog/',
         filename: 'script/[name].[chunkhash:5].bundle.js'
     },
     externals: {

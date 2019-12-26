@@ -6,10 +6,12 @@ import Router from 'vue-router';
 
 Vue.use(Router);
 
+const prod = process.env.NODE_ENV === 'production';
+
 export function createRouter() {
     const router = new Router({
         mode: 'history',
-        base: '/blog/',
+        base: prod ? '/blog/' : '/',
         routes: [
             // {
             //     path: '*',

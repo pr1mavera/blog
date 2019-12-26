@@ -1,7 +1,9 @@
 import axios from 'axios';
 
+const prod = process.env.NODE_ENV === 'production';
+
 const request = axios.create({
-    baseURL: '/blog/api/v1',
+    baseURL: prod ? '/blog/api/v1' : '/api/v1'
     /* other custom settings */
 });
 
