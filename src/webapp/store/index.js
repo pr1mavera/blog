@@ -1,8 +1,11 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
+// import Vue from 'vue';
+// import Vuex from 'vuex';
 import { mutations } from './mutations';
 import * as getters from './getters';
 import * as actions from './actions';
+
+const Vue = require('vue');
+const Vuex = require('vuex');
 
 // 判断当前环境是否是浏览器
 const isBrowser = typeof window != 'undefined';
