@@ -107,3 +107,5 @@ const webpackConfig = {
 };
 
 module.exports = merge(webpackConfig, _mergeConfig);
+
+console.log('webpack config', merge(webpackConfig, _mergeConfig));

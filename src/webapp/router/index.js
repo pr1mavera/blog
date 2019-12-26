@@ -11,7 +11,8 @@ const prod = process.env.NODE_ENV === 'production';
 export function createRouter() {
     const router = new Router({
         mode: 'history',
-        base: prod ? '/blog/' : '/',
+        // base: prod ? '/blog/' : '/',
+        base: '/',
         routes: [
             // {
             //     path: '*',
