@@ -15,7 +15,7 @@ if (process.env.NODE_ENV == "development") {
 }
 if (process.env.NODE_ENV == "production") {
     const prodConfig = {
-        port: 80,
+        port: 8088,
         cache: 'memory'
     }
     $config = extend($config, prodConfig);

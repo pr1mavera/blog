@@ -1,6 +1,6 @@
 import { route, GET } from 'awilix-koa';
 
-@route('/home')
+@route('/blog')
 class IndexController {
 
     constructor({ indexService }) {

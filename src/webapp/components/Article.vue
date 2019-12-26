@@ -1,7 +1,7 @@
 <template>
   <div class="article">
     <aside class="tree-aside">
-      <md-tree :tree="articleMap" :curItem="$route.params.aid"></md-tree>
+      <md-tree :tree="articleMap"></md-tree>
     </aside>
     <!-- <vue-markdown :source="articleContent"></vue-markdown> -->
     <div class="main-wrapper">
@@ -12,8 +12,8 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import MdTree from "./mdTree";
+import { mapGetters } from 'vuex';
+import MdTree from './mdTree';
 
 const requestArticleData = async ({ store, route }) => {
   // 抽取文章列表

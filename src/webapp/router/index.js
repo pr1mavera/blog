@@ -9,7 +9,7 @@ Vue.use(Router);
 export function createRouter() {
     const router = new Router({
         mode: 'history',
-        base: '/home/',
+        base: '/blog/',
         routes: [
             // {
             //     path: '*',
@@ -18,16 +18,17 @@ export function createRouter() {
             {
                 path: '/',
                 name: 'home',
-                component: () => import('@/webapp/components/Home.vue')
+                component: () => import(/* webpackChunkName: "home" */'@/webapp/components/Home.vue')
             },
             {
                 path: '/article',
-                component: () => import('@/webapp/components/Article.vue'),
+                name: 'Article',
+                component: () => import(/* webpackChunkName: "article" */'@/webapp/components/Article.vue'),
                 children: [
                     {
                         path: '/article/:aid',
                         name: 'Article',
-                        component: () => import('@/webapp/components/Article.vue')
+                        component: () => import(/* webpackChunkName: "article" */'@/webapp/components/Article.vue')
                     }
                 ]
                 

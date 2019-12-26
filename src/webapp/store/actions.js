@@ -1,6 +1,7 @@
 import axios from 'axios';
-var request = axios.create({
-    baseURL: 'http://localhost:3000/api/v1',
+
+const request = axios.create({
+    baseURL: '/blog/api/v1',
     /* other custom settings */
 });
 

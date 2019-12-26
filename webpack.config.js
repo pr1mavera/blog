@@ -6,6 +6,7 @@ const _isProd = _mode == 'production';
 const _modeFlag = _mode == 'development' ? true : false;
 const _mergeConfig = require(`./config/webpack.${_mode}.config.js`);
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const vueLoaderConfig = [
     {
@@ -52,7 +53,12 @@ const webpackConfig = {
         modules: [
             resolve(__dirname, 'node_modules')
         ],
-        extensions: ['.js', '.css', '.vue']
+        extensions: ['.js', '.css', '.vue', '.css']
+    },
+    optimization: {
+        runtimeChunk: {
+            name: 'runtime'
+        }
     },
     module: {
         rules: [
@@ -61,24 +67,29 @@ const webpackConfig = {
                 loader: 'vue-loader',
                 options: {
                     loaders: {
-                        less: _isProd
-                            ? ExtractTextPlugin.extract({
-                                use: vueLoaderConfig,
-                                fallback: 'vue-style-loader'
-                            })
-                            : ['vue-style-loader'].concat(vueLoaderConfig)
+                        less: ['vue-style-loader'].concat(vueLoaderConfig),
+                        extractCSS: _isProd ? true : false
                     }
                 }
             },
             {
+                test: /\.js$/,
+                loader: 'babel-loader'
+            },
+            {
                 test: /\.less$/,
-                use: [ 'vue-style-loader', 'css-loader', 'less-loader' ]
+                use: ['vue-style-loader', 'css-loader', 'less-loader']
             },
             {
                 test: /\.css$/,
                 use: [
-                    'vue-style-loader',
-                    'css-loader'
+                    {
+                        loader: MiniCssExtractPlugin.loader,
+                        options: {
+                            esModule: true,
+                        },
+                    },
+                    'css-loader',
                 ]
             }
         ]
@@ -87,6 +98,10 @@ const webpackConfig = {
 
     },
     plugins: [
+        new MiniCssExtractPlugin({
+            filename: _isProd ? 'style/[name].[hash:6].css' : 'style/[name].css',
+            chunkFilename: _isProd ? 'style/[id].[hash:6].css' : 'style/[id].css',
+        }),
         new VueLoaderPlugin()
     ]
 };

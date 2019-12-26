@@ -14,7 +14,7 @@
         v-for="(children, i) in tree.children"
         :key="i"
         :deep="deep + 1"
-        :curItem="curItem"
+        :isContent="childIsContent"
         :tree="tree.children[i]"
       ></md-tree>
     </div>
@@ -30,9 +30,9 @@ export default {
       type: Number,
       default: 1
     },
-    curItem: {
-      type: String,
-      default: ""
+    isContent: {
+      type: Boolean,
+      default: false
     },
     tree: {
       type: Object,
@@ -40,6 +40,9 @@ export default {
     }
   },
   computed: {
+    childIsContent() {
+      return this.isContent || this.tree.aid != void 0;
+    },
     isCurArticle() {
       return this.tree.aid === this.$route.params.aid;
     },
@@ -49,7 +52,10 @@ export default {
       return !this.tree.aid || this.isCurArticle;
     },
     tabByDeep() {
-      return { paddingLeft: 15 * this.deep + 'px' };
+      return {
+        paddingLeft: 15 * this.deep + 'px',
+        fontSize: this.isContent ? '80%' : '100%'
+      };
     }
   }
 };
@@ -78,7 +84,7 @@ export default {
       position: absolute;
       left: 0;
       top: 0;
-      width: 5px;
+      width: 4px;
       height: calc(2 * 16px);
       background-color: var(--themeColor);
     }
