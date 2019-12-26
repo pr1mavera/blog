@@ -12,11 +12,11 @@ npm run client:serv
 
 npm run client:prod
 
-cd dist
+# cd dist
 
-cp -R -f ./ ~/nginx/app/blog/
+# cp -R -f ./ ~/nginx/app/blog/
 
-cd ../
+# cd ../
 
-npm run start
+# npm run start
 
