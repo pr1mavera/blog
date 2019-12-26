@@ -6,6 +6,7 @@ const VueSSRServerPlugin = require('vue-server-renderer/server-plugin');
 const MDMapPlugin = require('md-map-plugin');
 // const MDMapPlugin = require('../../MDMap/src/main');
 // const CopyPlugin = require('copy-webpack-plugin');
+const prod = process.env.NODE_ENV === 'production';
 
 const rootPath = path.join(__dirname, '../');
 const targetMDPath = rootPath + 'dist/docs/随笔/'
@@ -19,7 +20,7 @@ module.exports = {
     entry: [ rootPath + 'src/webapp/entry-server.js' ],
     output: {
         path: rootPath + 'dist/assets/',
-        publicPath: '/',
+        publicPath: prod ? '/blog/' : '/',
         // 此处告知 server bundle 使用 Node 风格导出模块(Node-style exports)
         libraryTarget: 'commonjs2',
     },
