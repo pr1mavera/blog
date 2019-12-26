@@ -39,7 +39,7 @@ module.exports = {
         new MDMapPlugin({
             input: targetMDPath,
             output: rootPath + 'dist/assets',
-            targetStaticPath: rootPath + '../nginx/app/blog/随笔/',
+            // targetStaticPath: rootPath + '../nginx/app/blog/随笔/',
             mdFileDepth: 3
         }),
         new VueSSRServerPlugin(),
