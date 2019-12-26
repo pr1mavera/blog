@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=production pm2 start ~/nginx/app/blog/app.js -i max",
+    "start": "cross-env NODE_ENV=production pm2 restart ~/nginx/app/blog/app.js -i max --name=blog",
     "client:dev": "webpack --mode development --progress --colors",
     "client:serv": "webpack --mode development --env server --progress --hide-modules",
     "client:prod": "webpack --mode production --progress --colors",
