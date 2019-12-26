@@ -18,3 +18,5 @@ cp -R -f ./ ~/nginx/app/blog/
 
 cd ../
 
+npm run start
+
