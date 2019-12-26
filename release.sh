@@ -4,7 +4,7 @@ set -e
 
 # rm -r ~/nginx/app/event/*
 
-git pull https://github.com/pr1mavera/blog.git SSR-rebuild
+git pull https://git.dev.tencent.com/primavera/blog.git SSR-rebuild
 
 npm run server:prod
 
