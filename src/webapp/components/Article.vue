@@ -27,7 +27,7 @@ const requestArticleData = ({ store, route }) => {
 };
 
 export default {
-  name: 'article',
+  name: 'article-view',
   // 此处需要留一个占位，在 server层 入口（entry-server）初始化渲染时，找到此处的占位，去请求相应接口
   asyncData: requestArticleData,
   computed: {
