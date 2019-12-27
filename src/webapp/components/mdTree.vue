@@ -13,6 +13,7 @@
         v-show="isExpand"
         v-for="(children, i) in tree.children"
         :key="i"
+        :aid="aid"
         :deep="deep + 1"
         :isContent="childIsContent"
         :tree="tree.children[i]"
@@ -26,6 +27,10 @@
 export default {
   name: "md-tree",
   props: {
+    aid: {
+      type: String,
+      default: ''
+    },
     deep: {
       type: Number,
       default: 1
@@ -41,16 +46,16 @@ export default {
   },
   data() {
     return {
-      isCurArticle: false
+      // isCurArticle: false
     };
   },
   computed: {
     childIsContent() {
       return this.isContent || this.tree.aid != void 0;
     },
-    // isCurArticle() {
-    //   return this.tree.aid === this.$route.query.aid;
-    // },
+    isCurArticle() {
+      return this.tree.aid === this.aid;
+    },
     isExpand() {
       // this.tree.aid 不存在说明为文件骨架，展开
       // 为当前文章，展开
@@ -63,14 +68,14 @@ export default {
       };
     }
   },
-  mounted() {
-    this.isCurArticle = this.tree.aid === this.$route.query.aid;
-  },
-  watch: {
-    $route(to) {
-      this.isCurArticle = this.tree.aid === to.query.aid;
-    }
-  }
+  // mounted() {
+  //   this.isCurArticle = this.tree.aid === this.$route.query.aid;
+  // },
+  // watch: {
+  //   $route(to) {
+  //     this.isCurArticle = this.tree.aid === to.query.aid;
+  //   }
+  // }
 };
 </script>
 

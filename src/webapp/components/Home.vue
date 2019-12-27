@@ -5,7 +5,7 @@
                 <!-- <img width=100% height=100% src="https://pr1mavera.github.io/blog/img/banner-2.jpg" alt="" class="icon"> -->
             </div>
             <h1 class="title">一切不成体系的知识碎片都只能当做无聊的消遣</h1>
-            <router-link class="link" to="/article">消遣一哈 ></router-link>
+            <router-link class="link" to="/article">消遣一哈</router-link>
         </div>
         <footer class="footer">
             <p class="copyright">2018 - 2020 | pr1mavera</p>
