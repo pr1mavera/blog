@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <header class="navbar">
+        <div class="navbar">
             <a class="home-link">
                 <!-- <img class="avatar" src="https://pr1mavera.github.io/blog/img/logo.png" alt=""> -->
                 <img class="avatar" src="" alt="">
@@ -13,10 +13,10 @@
                 </ul>
             </div>
             <span v-if="isShowSidebarBtn" class="sidebar-button" @click="foldTreeAside">
-                <!-- <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg> -->
-                ¡
+                <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg>
+                <!-- ¡ -->
             </span>
-        </header>
+        </div>
         <router-view class="view"></router-view>
     </div>
 </template>
@@ -41,7 +41,7 @@ export default {
     },
     watch: {
         $route(to, from) {
-            this.isShowSidebarBtn = to.name === 'article'
+            this.isShowSidebarBtn = to.name === 'article-view'
         }
     }
 }

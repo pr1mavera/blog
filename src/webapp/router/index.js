@@ -24,14 +24,14 @@ export function createRouter() {
             {
                 path: '/',
                 name: 'home',
-                component: Home
-                // component: () => import(/* webpackChunkName: "home" */'@/webapp/components/Home.vue')
+                // component: Home
+                component: () => import(/* webpackChunkName: "home" */'@/webapp/components/Home.vue')
             },
             {
                 path: '/article',
-                name: 'article',
-                component: Article
-                // component: () => import(/* webpackChunkName: "article" */'@/webapp/components/Article.vue'),
+                name: 'article-view',
+                // component: Article
+                component: () => import(/* webpackChunkName: "article" */'@/webapp/components/Article.vue')
                 // children: []
             },
             // {
