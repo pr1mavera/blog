@@ -13,3 +13,5 @@ export const articleMap = state => state.articleMap;
 export const firstArticle = ({ articleMap }) => _firstArticle(articleMap);
 
 export const articleContent = state => state.articleContent;
+
+export const isTreeAsideExpand = state => state.isTreeAsideExpand;

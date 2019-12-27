@@ -1,6 +1,6 @@
 import { route, GET } from 'awilix-koa';
 
-@route('/')
+@route('/home')
 class IndexController {
 
     constructor({ indexService }) {
@@ -8,8 +8,7 @@ class IndexController {
     }
 
     @route('/')
-    @route('/index.html')
-    @route('/article/*')
+    @route('/article')
     @GET()
     async actionIndex(ctx) {
         console.log('IndexController');

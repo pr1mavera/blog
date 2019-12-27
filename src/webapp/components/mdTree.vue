@@ -3,7 +3,7 @@
     <router-link
       v-if="tree.aid"
       :class="{ 'title-link': true, 'is-cur-article': isCurArticle }"
-      :to="`/article/${tree.aid}`"
+      :to="`/article?aid=${tree.aid}`"
       :style="tabByDeep"
       exact
     >{{tree.title}}</router-link>
@@ -39,13 +39,18 @@ export default {
       default: {}
     }
   },
+  data() {
+    return {
+      isCurArticle: false
+    };
+  },
   computed: {
     childIsContent() {
       return this.isContent || this.tree.aid != void 0;
     },
-    isCurArticle() {
-      return this.tree.aid === this.$route.params.aid;
-    },
+    // isCurArticle() {
+    //   return this.tree.aid === this.$route.query.aid;
+    // },
     isExpand() {
       // this.tree.aid 不存在说明为文件骨架，展开
       // 为当前文章，展开
@@ -56,6 +61,14 @@ export default {
         paddingLeft: 15 * this.deep + 'px',
         fontSize: this.isContent ? '80%' : '100%'
       };
+    }
+  },
+  mounted() {
+    this.isCurArticle = this.tree.aid === this.$route.query.aid;
+  },
+  watch: {
+    $route(to) {
+      this.isCurArticle = this.tree.aid === to.query.aid;
     }
   }
 };

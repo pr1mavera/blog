@@ -1,11 +1,11 @@
-// import Vue from 'vue';
-// import Vuex from 'vuex';
+import Vue from 'vue';
+import Vuex from 'vuex';
 import { mutations } from './mutations';
 import * as getters from './getters';
 import * as actions from './actions';
 
-const Vue = require('vue');
-const Vuex = require('vuex');
+// const Vue = require('vue');
+// const Vuex = require('vuex');
 
 // 判断当前环境是否是浏览器
 const isBrowser = typeof window != 'undefined';
@@ -24,7 +24,8 @@ if (isClientProdEnv) {
 const defaultState = {
     count: 0,
     articleMap: {},
-    articleContent: ''
+    articleContent: [],
+    isTreeAsideExpand: true
 }
 
 // node层 渲染时，需要知道前端哪些请求是异步加载的，后端统一处理完成之后合并，再一次性返回给前端

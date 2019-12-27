@@ -17,13 +17,18 @@ export const getArticleMap = ({ commit, state }) => {
         });
 };
 
-export const getArticle = ({ commit }, aid) => {
+export const getArticle = ({ commit, state }, aid) => {
+    if (aid === state.articleContent[0]) return state.articleContent;
     return request.get('/article/' + aid)
         .then(response => response.data)
         .then(response => {
-            response.result.code == '0' && commit('ARTICLE_CONTENT', response.data);
+            response.result.code == '0' && commit('ARTICLE_CONTENT', [ aid, response.data ]);
         });
 };
 
 export const increment = ({ commit }) => commit('INCREMENT');
 export const decrement = ({ commit }) => commit('DECREMENT');
+
+export const openTreeAside = ({ commit }) => commit('TREE_ASIDE_EXPAND', true);
+export const closeTreeAside = ({ commit }) => commit('TREE_ASIDE_EXPAND', false);
+export const foldTreeAside = ({ commit, state }) => commit('TREE_ASIDE_EXPAND', !state.isTreeAsideExpand)
