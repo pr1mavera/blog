@@ -1,5 +1,5 @@
 <template>
-  <div class="article">
+  <div class="article-view">
     <aside class="tree-aside" :style="treeAsideExpandStyle">
       <md-tree :tree="articleMap"></md-tree>
     </aside>
@@ -43,7 +43,7 @@ export default {
     }
   },
   // server层 Vue对应的生命周期只有 beforeMounted 、 mounted
-  beforeCreate() {
+  mounted() {
     requestArticleData({ store: this.$store, route: this.$route }).then(() => {
       if (this.$route && !this.$route.query.aid) {
         // 当前无 aid 的情况在客户端渲染，需要重定向路由
@@ -66,7 +66,7 @@ export default {
 </script>
 
 <style lang="less" scope>
-.article {
+.article-view {
   position: relative;
   top: 0;
   bottom: 0;
@@ -108,7 +108,7 @@ export default {
 }
 
 @media screen and (max-width: 700px) {
-  .article {
+  .article-view {
     .tree-aside {
       // display: none;
       transform: translateX(-100%)
