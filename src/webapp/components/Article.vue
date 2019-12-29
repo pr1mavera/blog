@@ -49,7 +49,7 @@ export default {
   // },
   // server层 Vue对应的生命周期只有 beforeCreate 、 Create
   // 这里处理的是前端接管路由之后的处理，单页跳至此处的时候请求数据
-  beforeMounted() {
+  beforeMount() {
     requestArticleData({ store: this.$store, route: this.$route }).then(() => {
       if (this.$route && !this.$route.query.aid) {
         // 当前无 aid 的情况在客户端渲染，需要重定向路由
