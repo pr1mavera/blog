@@ -2,7 +2,7 @@
     <div class="home">
         <div class="banner">
             <div class="icon">
-                <img src="/img/banner-2.jpg" alt="banner">
+                <img src="/blog/img/banner-2.jpg" alt="banner">
             </div>
             <h1 class="title">一切不成体系的知识碎片都只能当做无聊的消遣</h1>
             <router-link class="link" to="/article">消遣一哈</router-link>
