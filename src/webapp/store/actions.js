@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-const prod = process.env.NODE_ENV === 'production';
+const isDev = process.env.NODE_ENV === 'development';
 
 const request = axios.create({
-    baseURL: prod ? 'https://video-uat.ihxlife.com/blog/api/v1' : 'http://127.0.0.1:3000/api/v1'
+    baseURL: isDev ? 'http://127.0.0.1:3000/api/v1' : 'https://video-uat.ihxlife.com/blog/api/v1'
     /* other custom settings */
 });
 
