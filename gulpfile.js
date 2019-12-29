@@ -47,15 +47,14 @@ function copyImg() {
         .pipe(imagemin())
         .pipe(gulp.dest('./dist/assets/img/'));
 }
-function copyImg() {
+function copyIcon() {
     return gulp.src("./docs/.vuepress/public/img/logo.png")
         .pipe(gulp.dest('./dist/assets/'));
 }
 function assetsSource() {
-    return gulp.parallel(copyDocs, copyImg, copyImg)();
+    return gulp.parallel(copyDocs, copyImg, copyIcon)();
 }
 
-//上线环境
 function buildConfig() {
     return gulp.src(entry)
         .pipe(rollup({
@@ -78,9 +77,9 @@ function buildLint() {
         .pipe(eslint.failAfterError());
 }
 
-let build = gulp.series(buildDev, assetsSource);
+let build = gulp.series(buildDev, copyDocs, copyImg, copyIcon);
 if (process.env.NODE_ENV == "production") {
-    build = gulp.series(buildProd, buildConfig, assetsSource);
+    build = gulp.series(buildProd, buildConfig, copyDocs, copyImg, copyIcon);
 }
 if (process.env.NODE_ENV == "lint") {
     build = gulp.series(buildLint);
