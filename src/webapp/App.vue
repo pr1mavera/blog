@@ -2,7 +2,7 @@
     <div id="app">
         <div class="navbar">
             <a class="home-link" :style="isSidebarShouldShow ? 'padding-left: 60px;' : ''">
-                <img class="avatar" src="" alt="">
+                <img class="avatar" src="/img/logo.png" alt="">
                 <span class="title">pr1mavera's blog</span>
             </a>
             <div class="links">

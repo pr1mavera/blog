@@ -4,7 +4,7 @@ import { createRouter } from './router';
 import { createStore } from './store';
 import { sync } from 'vuex-router-sync'
 import 'normalize.css';
-import 'highlight.js/styles/solarized-dark.css';
+import 'highlight.js/styles/night-owl.css';
 import "./common/style/index.less";
 
 // const Vue = require('vue');

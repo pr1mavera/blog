@@ -5,6 +5,7 @@
       :class="{ 'title-link': true, 'is-cur-article': isCurArticle }"
       :to="`/article?aid=${tree.aid}`"
       :style="tabByDeep"
+      @click.native="clickArticleHandler"
       exact
     >{{tree.title}}</router-link>
     <a class="title" :style="tabByDeep" v-else>{{tree.title}}</a>
@@ -24,6 +25,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   name: "md-tree",
   props: {
@@ -68,6 +71,16 @@ export default {
       };
     }
   },
+  methods: {
+    clickArticleHandler() {
+      if (window.innerWidth <= 700) {
+        this.closeTreeAside();
+      }
+    },
+    ...mapActions([
+      'closeTreeAside'
+    ]),
+  }
   // mounted() {
   //   this.isCurArticle = this.tree.aid === this.$route.query.aid;
   // },

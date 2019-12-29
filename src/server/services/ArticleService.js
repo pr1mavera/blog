@@ -28,8 +28,12 @@ export default class ArticleService {
     async getArticle(aid) {
         const { mdMap } = await this.MDService.getMDData();
         const url = mdMap[aid];
-        const content = fs.readFileSync(url, 'utf-8');
-        const contentHTML = marked(content);
-        return contentHTML;
+        let content = fs.readFileSync(url, 'utf-8');
+
+        /* 对内容做处理 */
+        // 处理图片路径 ![...](/blog...)
+        content = content.replace(/(?<=\!\[.+\]\()\/blog/g, '');
+
+        return marked(content);
     }
 }

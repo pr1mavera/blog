@@ -108,6 +108,23 @@ export default {
       width: 100%;
       margin: 0 auto;
       line-height: 1.75;
+      img {
+        width: 100%;
+      }
+      pre {
+        line-height: 1.4;
+        font-size: 14px;
+        position: relative;
+        padding: 20px 24px;
+        box-sizing: border-box;
+        background-color: #282c34;
+        border-radius: 6px;
+        overflow: auto;
+        color: #ccc;
+        // .hljs-comment {
+        //   color: #ccc;
+        // }
+      }
     }
   }
 }
