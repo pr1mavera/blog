@@ -32,7 +32,7 @@ export default class ArticleService {
 
         /* 对内容做处理 */
         // 处理图片路径 ![...](/blog...)
-        // content = content.replace(/(?<=\!\[.+\]\()\/blog/g, '');
+        process.env.NODE_ENV == 'development' && (content = content.replace(/(?<=\!\[.+\]\()\/blog/g, ''));
 
         return marked(content);
     }
