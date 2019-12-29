@@ -9,6 +9,7 @@ const rootPath = path.join(__dirname, '../');
 
 module.exports = {
     entry: [rootPath + 'src/webapp/entry-client.js'],
+    devtool: '#source-map',
     output: {
         path: rootPath + '/dist/assets/',
         publicPath: '/blog/',

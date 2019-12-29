@@ -7,17 +7,22 @@ import { createApp } from './main';
 export default ctx => new Promise((resolve, reject) => {
     const { app, router, store } = createApp();
     // 进入客户访问的真实路由
-    router.push(ctx.url);
+    router.push(ctx.url.replace('/home', ''));
     router.onReady(() => {
         // 匹配路由对应的组件
         const matchComponents = router.getMatchedComponents();
         // 抓取 asyncData 执行
-        const asyncDatas = matchComponents.filter(component => component.asyncData)
-                                          .map(component => component.asyncData({ store, route: router.currentRoute }));
+        const asyncDatas = matchComponents.map(component => {
+                                              return component.asyncData
+                                                ? component.asyncData({ store, route: router.currentRoute })
+                                                : Promise.resolve()
+                                          });
         Promise.all(asyncDatas)
-               // 挂载
-               .then(() => ctx.state = store.state)
-               .then(() => resolve(app))
+               .then(() => {
+                   // 挂载
+                   ctx.state = store.state;
+                   return resolve(app);
+               })
                .catch(reject);
     }, reject);
 });

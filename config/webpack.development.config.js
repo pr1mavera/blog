@@ -1,10 +1,12 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const VueSSRClientPlugin = require('vue-server-renderer/client-plugin');
+const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const rootPath = path.join(__dirname, '../');
 
 module.exports = {
     entry: [ rootPath + 'src/webapp/entry-client.js' ],
+    devtool: 'cheap-module-eval-source-map',
     module: {
         rules: [
             {
@@ -18,6 +20,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             filename: 'index.template.html',
             template: 'src/webapp/index.html',
-        })
+        }),
+        new FriendlyErrorsPlugin()
     ]
 };

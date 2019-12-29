@@ -17,11 +17,25 @@ class IndexService {
             runInNewContext: false,
             template,
             clientManifest,
-            cache: new LRU({
+            cache: LRU({
                 max: 1000,
                 maxAge: 1000 * 60 * 15
             })
         });
+        const context = { url: ctx.url };
+
+        // function createSsrStreamPromise(context) {
+        //     return new Promise((resolve, reject) => {
+        //         if (!SSRRenderer) {
+        //             return ctx.body = 'waiting for compilation.. refresh in a moment.'
+        //         }
+        //         const ssrStream = SSRRenderer.renderToStream(context);
+        //         ctx.status = 200;
+        //         ctx.type = 'html';
+        //         ssrStream.on('error', err =>{reject(err)}).pipe(ctx.res);
+        //     });
+        // }
+        // await createSsrStreamPromise(context);
 
         return new Promise((resolve, rejects) => {
             const SSRStream = SSRRenderer.renderToStream({ url: ctx.url });

@@ -1,7 +1,7 @@
 import config from "@config";
 import { get as _get } from "axios";
 const { baseUrl } = config;
-console.log("获取的baseurl", baseUrl);
+
 class SafeRequest {
     constructor(url) {
         this.url = url;

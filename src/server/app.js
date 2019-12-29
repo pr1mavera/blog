@@ -50,7 +50,7 @@ app.use(serve(staticDir));
 error(app);
 // 加载所有路由
 app.use(loadControllers(__dirname + '/controllers/*.js'));
-app.listen(port, () => {
+app.listen(port, '127.0.0.1', () => {
     console.log("服务启动成功🍺");
 });
 app.on("error", (err) => {

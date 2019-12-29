@@ -60,7 +60,6 @@ class BooksController {
             await createSSRStream();
             // ctx.body = html
         }
-        // console.log("返回的值", result);
         // ctx.body = result;
     }
 

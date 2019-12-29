@@ -8,7 +8,7 @@ class IndexController {
     }
 
     @route('/')
-    @route('/article')
+    @route('/article/')
     @GET()
     async actionIndex(ctx) {
         console.log('IndexController');

@@ -2,7 +2,6 @@
     <div class="home">
         <div class="banner">
             <div class="icon">
-                <!-- <img width=100% height=100% src="https://pr1mavera.github.io/blog/img/banner-2.jpg" alt="" class="icon"> -->
             </div>
             <h1 class="title">一切不成体系的知识碎片都只能当做无聊的消遣</h1>
             <router-link class="link" to="/article">消遣一哈</router-link>
@@ -54,6 +53,8 @@ export default {
             margin: auto;
             box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 18px;
             img {
+                width: 100%;
+                height: 100%;
                 object-fit: cover;
             }
         }

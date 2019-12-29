@@ -31,13 +31,21 @@ export function createRouter() {
                 path: '/article',
                 name: 'article-view',
                 // component: Article
-                component: () => import(/* webpackChunkName: "article" */'@/webapp/components/Article.vue')
-                // children: []
+                component: () => import(/* webpackChunkName: "article" */'@/webapp/components/Article.vue'),
+                // children: [
+                //     {
+                //         path: '/article/:aid',
+                //         name: 'article-view',
+                //         component: () => import(/* webpackChunkName: "article" */'@/webapp/components/Article.vue')
+                //     }
+                // ]
             },
             // {
             //     path: '/article/:aid',
-            //     name: 'Article',
-            //     component: () => import(/* webpackChunkName: "article" */'@/webapp/components/Article.vue')
+            //     name: 'article-with-aid',
+            //     props: true,
+            //     component: Article
+            //     // component: () => import(/* webpackChunkName: "article" */'@/webapp/components/Article.vue')
             // }
         ]
     });
