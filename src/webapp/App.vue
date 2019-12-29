@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <div class="navbar">
-            <a class="home-link">
+            <a class="home-link" :style="isSidebarShouldShow ? 'padding-left: 60px;' : ''">
                 <img class="avatar" src="" alt="">
                 <span class="title">pr1mavera's blog</span>
             </a>
@@ -11,11 +11,16 @@
                     <router-link to="/article"><span>文章</span></router-link>
                 </ul>
             </div>
-            <span v-if="isShowSidebarBtn" class="sidebar-button" @click="foldTreeAside">
+            <span
+                v-if="isSidebarShouldShow"
+                class="sidebar-button"
+                @click="foldTreeAside">
                 <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg>
             </span>
         </div>
-        <router-view class="view"></router-view>
+        <keep-alive>
+            <router-view class="view"></router-view>
+        </keep-alive>
     </div>
 </template>
 
@@ -26,20 +31,39 @@ export default {
     name: 'app',
     data() {
         return {
-            isShowSidebarBtn: false
+            isSidebarShouldShow: this.$route.name === 'article-view'
         }
     },
     computed: {
-        ...mapGetters([ 'isTreeAsideExpand' ])
+        // ...mapGetters([ 'isTreeAsideExpand' ])
     },
     methods: {
         ...mapActions([
+            'openTreeAside',
+            'closeTreeAside',
             'foldTreeAside'
-        ])
+        ]),
+        resize(e) {
+            const event = e || window.event;
+            if (e.currentTarget.innerWidth <= 700) {
+                // 折叠
+                this.closeTreeAside();
+            } else {
+                // 展开
+                this.openTreeAside();
+            }
+            
+        }
+    },
+    mounted() {
+        window.addEventListener('resize', this.resize);
+    },
+    beforeDestroy() {
+        window.removeEventListener('resize', this.resize)
     },
     watch: {
         '$route'(to, from) {
-            this.isShowSidebarBtn = to.name === 'article'
+            this.isSidebarShouldShow = to.name === 'article-view'
         }
     }
 }
@@ -70,6 +94,7 @@ html, body {
         height: inherit;
         display: flex;
         align-items: center;
+        box-sizing: border-box;
         .avatar {
             --imgRect: 40px;
             width: var(--imgRect);
@@ -105,7 +130,7 @@ html, body {
 .view {
     position: relative;
     margin-top: 60px;
-    width: 100vw;
+    width: 100%;
     height: calc(100% - 60px);
 }
 
@@ -113,6 +138,7 @@ html, body {
     #app {
         .navbar {
             .home-link {
+                padding-left: 0 ~'!important';
                 float: none;
                 display: flex;
                 justify-content: center;

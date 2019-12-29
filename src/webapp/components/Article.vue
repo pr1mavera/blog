@@ -100,6 +100,7 @@ export default {
     width: 100%;
     height: auto;
     overflow: hidden scroll;
+    background-color: #fff;
     .container {
       box-sizing: border-box;
       padding: 20px;
