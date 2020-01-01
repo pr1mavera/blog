@@ -1,0 +1,32 @@
+[2019-12-29T15:13:03.267] [ERROR] cheese - TypeError [ERR_INVALID_ARG_TYPE]: The "path" argument must be one of type string, Buffer, or URL. Received type undefined
+    at Object.openSync (fs.js:435:3)
+    at Object.readFileSync (fs.js:343:35)
+    at ArticleService.getArticle (/Users/Primavera/git/blog/dist/services/ArticleService.js:48:33)
+[2019-12-29T15:13:03.288] [ERROR] cheese - TypeError [ERR_INVALID_ARG_TYPE]: The "path" argument must be one of type string, Buffer, or URL. Received type undefined
+    at Object.openSync (fs.js:435:3)
+    at Object.readFileSync (fs.js:343:35)
+    at ArticleService.getArticle (/Users/Primavera/git/blog/dist/services/ArticleService.js:48:33)
+[2019-12-29T15:15:46.920] [ERROR] cheese - TypeError [ERR_INVALID_ARG_TYPE]: The "path" argument must be one of type string, Buffer, or URL. Received type undefined
+    at Object.openSync (fs.js:435:3)
+    at Object.readFileSync (fs.js:343:35)
+    at ArticleService.getArticle (/Users/Primavera/git/blog/dist/services/ArticleService.js:48:33)
+[2019-12-29T15:15:46.926] [ERROR] cheese - TypeError [ERR_INVALID_ARG_TYPE]: The "path" argument must be one of type string, Buffer, or URL. Received type undefined
+    at Object.openSync (fs.js:435:3)
+    at Object.readFileSync (fs.js:343:35)
+    at ArticleService.getArticle (/Users/Primavera/git/blog/dist/services/ArticleService.js:48:33)
+[2019-12-29T16:24:34.870] [ERROR] cheese - TypeError [ERR_INVALID_ARG_TYPE]: The "path" argument must be one of type string, Buffer, or URL. Received type undefined
+    at Object.openSync (fs.js:435:3)
+    at Object.readFileSync (fs.js:343:35)
+    at ArticleService.getArticle (/Users/Primavera/git/blog/dist/services/ArticleService.js:48:31)
+[2019-12-29T16:24:34.882] [ERROR] cheese - TypeError [ERR_INVALID_ARG_TYPE]: The "path" argument must be one of type string, Buffer, or URL. Received type undefined
+    at Object.openSync (fs.js:435:3)
+    at Object.readFileSync (fs.js:343:35)
+    at ArticleService.getArticle (/Users/Primavera/git/blog/dist/services/ArticleService.js:48:31)
+[2019-12-29T16:53:53.375] [ERROR] cheese - TypeError [ERR_INVALID_ARG_TYPE]: The "path" argument must be one of type string, Buffer, or URL. Received type undefined
+    at Object.openSync (fs.js:435:3)
+    at Object.readFileSync (fs.js:343:35)
+    at ArticleService.getArticle (/Users/Primavera/git/blog/dist/services/ArticleService.js:48:31)
+[2019-12-29T16:53:53.395] [ERROR] cheese - TypeError [ERR_INVALID_ARG_TYPE]: The "path" argument must be one of type string, Buffer, or URL. Received type undefined
+    at Object.openSync (fs.js:435:3)
+    at Object.readFileSync (fs.js:343:35)
+    at ArticleService.getArticle (/Users/Primavera/git/blog/dist/services/ArticleService.js:48:31)
