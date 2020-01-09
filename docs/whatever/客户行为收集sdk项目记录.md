@@ -1,0 +1,404 @@
+---
+title: 客户行为收集sdk项目记录
+date: 2019-10-31
+---
+
+记录一下行为收集sdk难点的一些实现细节
+
+## 模式切换机制
+
++ sdk初始化之后，会根据当前环境（是否在埋点配置用iframe内）进入对应模式
++ 可在 `HXAnalytics` 类直接通过 `this.mode = 'report';` 的方式切换模式，
++ 每个模式都有自己的基本生命周期（onEnter、onExit），会在模式切换的时候自动触发（通过重写 `this.mode` 的 `get / set`）
+
+## 埋点命中规则
+
+sdk在客户端记录的是全量行为日志，势必存在业务人员不关心的无效数据，需要在入库前根据埋点配置信息进行数据清洗操作
+
+客户行为数据（type: 2 且 isSysEvt: N）需要在清洗阶段会根据以下字段进行过滤：
++ sysId - 系统唯一标识
++ pageId - 页面唯一标识
++ funcId - 埋点唯一标识
+
+#### sysId
+接入sdk时每个提供获取的唯一标识
+
+#### pageId
+通过 `window.location.pathname` 和 `window.location.hash` 除去 `query` 拼接得到
+``` js
+_.getPageId = () => {
+    const { pathname, hash } = window.location;
+    return pathname + _.first(hash.split('?'));
+};
+```
+
+#### funcId
+根据 [whats-element](https://github.com/rowthan/whats-element) 生成页面元素唯一标识，同时拼接上 sysId 、 pageId  
+在配置阶段及上报阶段统一使用该规则命中埋点，大致组成如下
+``` js
+_.getElemPid = function (sysId, pageId, e) {
+    try {
+        const { type, wid } = new whatsElement().getUniqueId(e);
+        /**
+         * wid: 元素指纹
+         * type: 根据指纹可以唯一获取到元素的API
+         * sysId: sysId
+         * pageId: pageId
+         * 
+         * 统一使用 '!' 连接
+         */
+        return `${wid}!${type}!${sysId}!${pageId}`;
+    } catch {
+        return null;
+    }
+};
+```
+
+## 数据报的组装及中间件机制
+
+数据上报 `msg` ***模板字段*** :
+``` js
+reportType1: [
+    'batchId', /*           访问流水号 */
+    'appId', /*             应用Id */
+    'appName', /*           应用名称 */
+    'sysId', /*             系统Id */
+    'sysName', /*           系统名称 */
+    'origin', /*            客户来源 */
+    'openId', /*            openId */
+    'clientType', /*        客户端设备型号 */
+    'sysVersion', /*        客户端系统版本 */
+    'ip', /*                客户端IP */
+    'userNetWork', /*       客户端网络状态 */
+    'createTime' /*         服务端事件时间 */
+]
+reportType2: [
+    'batchId', /*           访问流水号 */
+    'sysId', /*             系统Id */
+    'pageId', /*            页面Path */
+    'pageName', /*          页面名称 */
+    'pageUrl', /*           完整页面地址 */
+    'funcId', /*            埋点Id */
+    'funcName', /*          埋点名称 */
+    'funcIntention', /*     埋点意向 */
+    'preFuncId', /*         上一个事件埋点Id */
+    'eventId', /*           事件Id（原生事件为事件的 eventType，自定义事件为自定义事件id，在配置界面设置） */
+    'eventName', /*         事件名称 */
+    'eventType', /*         事件类型 */
+    'eventTime', /*         客户端事件时间 */
+    'createTime', /*        服务端事件时间 */
+    'pageDwellTime', /*     页面停留时长 */
+    'enterTime', /*         客户端页面进入时间 */
+    'leaveTime' /*          客户端页面离开时间 */
+]
+```
+
+组装规则为：
+1. `key`=`value`
+2. 使用 `|` 分隔
+3. 若 `value` 没有，则使用 `${key}` 代替
+
+例如： `type=1|batchId=xxxxxxx|appId=${appId}...`
+
+### 组装方式
+
+#### 流程
+1. 宿主环境触发事件，调用 `Report.onTrigger`
+2. 经过各事件中间件组装特定参数，生成 `extendsData`
+3. 组装 `reqData` ，其中 `msg` 字段依靠 ***模板字段*** 匹配 `extendsData` 、 `AppConfig` 参数，统一组装
+4. 将 `reqData` 推送至消息队列
+
+#### 统一组装
+`Report.formatDatagram` 数据报映射策略:
+1. 全局系统配置
+2. 传入的额外配置（一般包含当前触发的埋点信息）
+3. 占位
+``` js
+formatDatagram(type: 1 | 2, extendsData: Obj = {}): string {
+    // 根据事件类型获取对应字段模板
+    // 对模板中的内容进行映射
+    return this.conf.get(`reportType${type}`).reduce((temp: string, key: string) => {
+        const val = this.conf.get(key) || /*    全局系统配置 */
+                    extendsData[key] || /*      传入的额外配置 */
+                    '$' + '{' + key + '}'; /*   占位 */
+        const str = `${key}=${val}`;
+        return temp += '|' + str;
+    }, `type=${type}`);
+}
+```
+
+### 中间件机制
+
+宿主环境的各个事件上报的数据可能都不一样，有的需要记录时长，有的需要记录上一个事件的id  
+因此考虑到代码的可扩展性和可复用性，参考 redux 的中间件引入了 ***中间件机制***
+
+#### 中间件配置
+``` ts
+reportConfigs: Obj = {
+    init: {
+        params: [ 'appId', 'sysId', 'openId' ],
+        middlewares: [
+            middlewares.loggerMiddleware,
+            middlewares.initMiddleware
+        ]
+    },
+    click: {
+        params: [ 'eventId', 'funcId', 'preFuncId' ],
+        middlewares: [
+            middlewares.loggerMiddleware,
+            middlewares.clickMiddleware,
+            middlewares.preFuncIdMiddleware
+        ]
+    },
+    // ...
+}
+```
+
+#### 中间件运行机制
+固定格式：
+``` ts
+export const someMiddleware = ctx /* Report 上下文 */ => next /* 中间件链 */ => (...opt /* 事件配置参数 */) => {
+    /* side Effect !!! */
+    // before next middleware
+
+    const reqData = next(opt);
+
+    /* side Effect !!! */
+    // after next middleware
+
+    return reqData;
+};
+```
+
++ 中间件组合后将遵循洋葱模型
++ 中间件返回值必须是 `next` 执行结果
++ 中间件中执行 `next` 时需要将事件配置参数传入，将顺着中间件管道传入 `onTrigger` ，因此最后一个中间件是最后一次包装事件配置参数的机会
+
+例如点击中间件 `clickMiddleware` :
+``` ts
+export const clickMiddleware = (ctx: any) => (next: Function) => (...opt: any) => {
+
+    console.log('clickMiddleware');
+
+    const [ funcId, _opt ] = opt;
+
+    const reqData = next({
+        ..._opt,
+        type: 2,
+        eventId: 'click',
+        isSysEvt: 'N',
+        funcId
+    });
+
+    return reqData;
+};
+```
+
+#### 绑定中间件
+在数据上报模式初始化时为注册事件绑定中间件，将原 onTrigger 组合中间件，作为 triggerWithMiddlewares 绑定在对应事件配置上
+``` ts
+applyMiddlewares(middlewares: Function[]) {
+    return (ctx: Report) => {
+        // 原 onTrigger
+        const originTrigger = ctx._onTrigger.bind(ctx);
+        // 映射，注入上下文
+        // chains: Array<(next: Function) => (...opt: any[]) => Obj>
+        const chains = middlewares.map((middleware: Function) => middleware(ctx));
+        // 剥离一层 chains 链，注入原 onTrigger
+        return ctx._.compose(...chains)(originTrigger);
+    }
+}
+
+onEnter() {
+    // ...
+    // 根据事件上报配置，在这旮沓挨个注册数据上报中间件
+    Object.keys(this.reportConfigs).forEach((key: string) => {
+        const config = this.reportConfigs[key];
+        if (config.middlewares && config.middlewares.length) {
+            // 包装原 onTrigger ，合并中间件
+            config.triggerWithMiddlewares = this.applyMiddlewares(config.middlewares)(this);
+        }
+    });
+    // ...
+}
+```
+
+#### 重写 onTrigger
+1. 此处重写的 onTrigger ，需要兼容外界的 push API，因此在此做参数合法校验
+2. 判断存在注册的中间件则调用，再将执行结果传入原onTrigger执行，否则直接调用 `this._onTrigger`
+``` js
+get onTrigger() {
+    return (reportOptList: any[]) => {
+
+        const [ directive, ...rest ] = reportOptList;
+        // 根据指令，抽取对应上报配置
+        const sendConfig = this.reportConfigs[directive];
+        // 拿到对应的中间件重构的 onTrigger
+        const { params, triggerWithMiddlewares } = sendConfig;
+        // 若存在数据上报重构函数，使用重构的上报函数，否则直接调用 this._onTrigger
+        return triggerWithMiddlewares ?
+            triggerWithMiddlewares(...rest) :
+            this._onTrigger(rest[0]);
+    }
+}
+```
+
+## 数据上报缓冲及边界处理
+
+#### 思路
++ sdk内部实现了一个简单的消息队列模型
++ 上报模式 `onTrigger` （生产者）将数据报组装完毕之后会将其添加进入消息队列，同时通知消费者当前有数据产生
++ 此时消费者产生一个节流的消费任务，将缓冲时间内（可配置，默认2秒）的数据报全部上报
+
+### 缓冲时间内的页面事件
+
+#### 问题描述
+在2秒缓冲时间内若产生以下宿主环境事件
++ 路由跳转
++ 宿主环境直接关闭
++ 宿主环境退至后台休眠
+
+都将可能产生 **数据丢失** 或者 **数据上报不及时** 的问题
++ **数据丢失** - 宿主环境关闭，内存中消息队列的数据报直接清除掉
++ **数据上报不及时** - 宿主环境休眠，导致无法及时发送数据
+
+因此需要做宿主环境边界情况的处理
+
+#### 解决方案
+设计消息队列模型向外提供**卸载**与**重载**的接口，分别在宿主环境状态改变时触发
++ **卸载** - `MsgsQueue.onUnload`
+    + 触发：多页应用跳转、宿主环境直接关闭、宿主环境退至后台休眠
+    1. 立即注销当前节流的消费任务
+    2. 尝试使用 `sendBeacon` API，消费消息队列中的数据
+    3. 消费成功，则退出
+    4. 消费失败，则将消息队列中的数据分别在 `window.name` 和 `localStorage` 中做双缓存，同时使用相同的 key（带 chunk）做关联
+    5. 在下次重载宿主环境时，比较缓存的 chunk ，重载消息队列
++ **重载** - `MsgsQueue.onLoad`
+    + 触发：页面加载，宿主环境转至前台
+    1. 将 `window.name` 和 `localStorage` 缓存中的数据取出
+    2. 合并去重，过滤出符合上报数据的缓存索引（ `report_temp_[chunk:6]` ）
+    3. 将得到的合法消息队列缓存，映射合并成消息队列可读的消息（双缓存格式不同，需 `JSON.parse`），重载消息队列
+
+#### 数据上报及时性
+双缓存机制的目的：**增强数据上报的及时性**
+
+使用 `window.name` 和 `localStorage` 双缓存机制，数据上报会产生以下情况
+1. localStorage √ | window.name × ===> 上次访问该页面存在行为数据未处理，上报
+2. localStorage × | window.name √ ===> 切至跨域网站，上报
+3. localStorage √ | window.name √ ===> 切至同域网站，上报
+
+其中情况2，最开始处理方式是忽略掉，因为可能导致与情况1的数据重复  
+但是后端入库数据量太大无法去重  
+后来为保证数据上报的及时性，与后端协调查询的时候，查询时由前端处理去重
+
+## 精确停留时长记录
+
+记录客户在某个页面精确的停留时长，需要在合适时机记录 **活跃节点** 与 **非活跃节点**
++ 活跃事件
+    + 页面加载
+    + 页面切换
+    + 页面从后台切换至前台
++ 非活跃事件
+    + 页面卸载
+    + 页面从前台切换至后台
+
+而且还需同时处理多页和单页的页面跳转
+
+#### 思路
+
+`PageTracer` 组件为页面活跃节点提供 **栈** 数据结构用于保存，当触发活跃事件时入栈一条 **活跃节点** ，触发非活跃事件时入栈一条 **非活跃节点** ，另外提供接口用于计算当前活跃时长
+![页面活跃节点栈](/hx-analytics/img/页面活跃节点栈.jpeg)
+活跃时长计算方式为栈内节点两两一组，用 **非活跃节点** 时间戳 - **活跃节点** ，再相加，即可得到总时长
+![停留时长](/hx-analytics/img/停留时长.jpeg)
+
+### 节点记录多次触发问题
+
+#### 问题描述
+正如上述的记录方案，停留时长计算要求的栈内数据是：
++ 一条 **活跃节点** 一条非 **非活跃节点**，重叠出现
++ 栈底需要是 **活跃节点**，栈顶需要是 **非活跃节点**
+这是在一种较为理想的情况下的基本方案，稳定性是建立在设备触发 `visibilitychange` 事件的正确性上的，然而在移动设备恶劣的环境下，免不了出现两条 **活跃节点** 连续入栈的情况（两条 **非活跃节点** 同理）
+
+#### 解决方案
+在记录 **活跃节点** 时（**非活跃节点** 同理），做一次栈顶数据校验，判断当前栈顶是 **非活跃节点** 才入栈，否则忽略  
+这样可以保证最终停留时长计算的正确性
+
+### 单页页面跳转问题
+
+#### 问题描述
+现代单页应用基本使用 `hash` 、 `history` 的方式通过欺骗浏览器达到更改页面路由、视图，但是页面不重新刷新的目的，因此单纯的页面加载卸载等事件便不能完全监控页面的切换
+
+#### 解决方案
+单页应用插件基本通过调用 `pushState` 、`replaceState` 原生API来触发 `history` 状态的改变  
+通过类似于注册 [猴子补丁](https://zh.wikipedia.org/wiki/%E7%8C%B4%E8%A1%A5%E4%B8%81) 的方式，我们可以在运行时将这些浏览器API包装起来，在单页应用插件调用这些API的时候，向宿主环境抛出（dispatchEvent）一个自定义事件来通知sdk，这样便可以和处理页面加载卸载事件一样处理这些事件
+
+一个可用的猴子补丁工具
+``` js
+/**
+ * 原生API派发浏览器事件猴子补丁
+ * 
+ * @param {any} orig 要重写的原生API
+ * @param {String} orig 派发的事件名称
+ */
+_.nativeCodeEventPatch = (orig, type) => {
+    // 修改原生事件的行为，并返回用于覆盖
+    return  function() {
+        // 执行原生事件，缓存结果
+        let res = orig.apply(this, arguments);
+        // 初始化原生事件，注意将传入的事件名称转成小写
+        let e = new Event(type.toLowerCase());
+        Object.assign(e, { arguments });
+        // 派发自定义事件
+        window.dispatchEvent(e);
+        // 将原生事件执行结果返回，供单页应用插件处理
+        return res;
+    }
+};
+```
+
+使用
+``` js
+window.history.pushState = this._.nativeCodeEventPatch(window.history.pushState, 'pushState');
+window.history.replaceState = this._.nativeCodeEventPatch(window.history.pushState, 'replaceState');
+```
+
+实际在使用的时候，可以将 `pushstate` 、 `replacestate` 、 `popstate` 、 `hashchange` 作为一类事件统一监控起来，这样可以统一单页应用不同的路由模式（hash mode, history mode），当然需在订阅的时候做过滤处理，当前若不符合页面切换条件（当前pathId与上一个路由pathId相同）的应过滤掉
+
+### 移动设备数据丢失问题
+
+#### 问题描述
+移动设备如果直接从后台删掉应用，将导致此次访问的停留时长数据丢失
+
+#### 解决方案
++ 在每次应用退至后台时，<u>记录一次停留时长数据，组装标准的上报数据包，直接**缓存在本地缓存**</u>，并记录缓存的chunk
++ 若应用切至前台时，查看当前是否存在上次停留时长数据的缓存，若存在则清空
++ 若应用未切至前台（直接从后台删掉应用），则<u>本次访问停留时长为**应用刚刚切至后台时的保存在本地缓存的数据**，并且将在下次访问该页面时上报</u>
++ 注：iOS微信浏览器上 `visibilitychange` 事件存在问题，前后台切换时不会触发，因此停留时长会同时记录切至后台的时间
+
+以这样的方式能够基本规避数据丢失问题
+
+## 埋点高亮圈选机制
+
+使用canvas，通过监控配置人员鼠标移动给当前鼠标停留位置上最顶层的dom设置蒙板，形成高亮效果
+
+#### 整体流程
+
+1. 父层推送指令至sdk，切换当前模式为埋点配置模式
+2. sdk开启埋点配置模式
+    + 开启canvas蒙板（DomMasker），并查询当前页面已设置过得埋点信息，作为 **预设埋点** 
+    + 监控鼠标移动（mousemove）
+    + 获取鼠标悬停位置最顶层的dom元素，计算宽高并与 **预设埋点** 一同绘制到canvas上
+3. 当鼠标点击某个高亮的蒙板，sdk将选中埋点推送指令至父层，同时设置当前埋点配置模式静默状态（此时依然是埋点配置模式，只是不监控鼠标移动、鼠标点击，只监控父层消息推送）
+4. 至此便完成了一次埋点圈选过程，父层可以通过给sdk推送重置消息重新开启流程
+
+### 双缓存机制解决蒙板闪烁问题
+
+#### 遇到问题
+鼠标移动，需要 `clearRect` 清空画布，先重新绘制 **预设埋点** ，再绘制当前鼠标悬停位置dom高亮的区域  
+但是这个过程中一旦重新绘制 **预设埋点** 的时间较长，将会存在画布闪烁问题  
+比如当前一屏画面中 **预设埋点** 有十个，若在重置画布的时候循环的一个个 `fillRect` ，等待绘制的时间将很长，从而导致闪烁问题  
+然而在一次圈选流程中 **预设埋点** 是不会变的，因此重新绘制不但会出现闪烁问题，而且从逻辑角度讲也不应该
+
+#### 解决思路
+将 **预设埋点** 从网络请求过来之后映射成埋点信息，首先在内存中初始化另外一个canvas，将 **预设埋点** 绘制上去作为内存缓冲，在每次鼠标移动需要重新绘制高亮区域的时候，重载内存缓冲canvas，相当于多个 **预设埋点** 只通过一次绘制图形操作即可绘制完毕，从而消除蒙板闪烁问题
+

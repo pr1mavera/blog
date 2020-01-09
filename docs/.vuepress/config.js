@@ -29,7 +29,8 @@ module.exports = {
             sidebarDepth: 3,
             collapsable: false,
             children: [
-                '/whatever/行为收集接入手册',
+                '/whatever/snabbdom源码分析',
+                '/whatever/客户行为收集sdk项目记录',
                 '/whatever/记一次算法在前端的实际应用',
                 '/whatever/对于MV*的理解',
                 '/whatever/cube-ui-“精致”的前端UI组件框架',
