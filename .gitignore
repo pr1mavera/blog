@@ -1,4 +1,3 @@
-deploy.sh
 node_modules
 psd
 dist/
