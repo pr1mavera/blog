@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>snabbdom 源码分析 | pr1mavera&#39;s blog</title>
+    <meta name="description" content="一切不成体系的知识碎片都只能当做无聊的消遣">
+    <link rel="icon" href="/blog/favicon.ico">
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    
+    <link rel="preload" href="/blog/assets/css/0.styles.c868d9db.css" as="style"><link rel="preload" href="/blog/assets/js/app.49d49959.js" as="script"><link rel="preload" href="/blog/assets/js/3.66f9ff46.js" as="script"><link rel="preload" href="/blog/assets/js/1.0064e023.js" as="script"><link rel="preload" href="/blog/assets/js/52.34197678.js" as="script"><link rel="prefetch" href="/blog/assets/js/10.b17e6a5b.js"><link rel="prefetch" href="/blog/assets/js/11.96a9f392.js"><link rel="prefetch" href="/blog/assets/js/12.0c07436c.js"><link rel="prefetch" href="/blog/assets/js/13.f37a0d7c.js"><link rel="prefetch" href="/blog/assets/js/14.0f2ed949.js"><link rel="prefetch" href="/blog/assets/js/15.b12c037c.js"><link rel="prefetch" href="/blog/assets/js/16.f66ea695.js"><link rel="prefetch" href="/blog/assets/js/17.4d7c521c.js"><link rel="prefetch" href="/blog/assets/js/18.d105b441.js"><link rel="prefetch" href="/blog/assets/js/19.bc34f423.js"><link rel="prefetch" href="/blog/assets/js/20.fbfb45a4.js"><link rel="prefetch" href="/blog/assets/js/21.c225ceb5.js"><link rel="prefetch" href="/blog/assets/js/22.9e3a65c5.js"><link rel="prefetch" href="/blog/assets/js/23.9b2216aa.js"><link rel="prefetch" href="/blog/assets/js/24.4402665b.js"><link rel="prefetch" href="/blog/assets/js/25.e48768fc.js"><link rel="prefetch" href="/blog/assets/js/26.6e0c6af0.js"><link rel="prefetch" href="/blog/assets/js/27.f7355d0e.js"><link rel="prefetch" href="/blog/assets/js/28.1307c2eb.js"><link rel="prefetch" href="/blog/assets/js/29.97e9b0fc.js"><link rel="prefetch" href="/blog/assets/js/30.11d799d8.js"><link rel="prefetch" href="/blog/assets/js/31.6226632e.js"><link rel="prefetch" href="/blog/assets/js/32.51037068.js"><link rel="prefetch" href="/blog/assets/js/33.8ea562c0.js"><link rel="prefetch" href="/blog/assets/js/34.d9b383be.js"><link rel="prefetch" href="/blog/assets/js/35.6f4fcdb2.js"><link rel="prefetch" href="/blog/assets/js/36.2de9d1e5.js"><link rel="prefetch" href="/blog/assets/js/37.1aa09447.js"><link rel="prefetch" href="/blog/assets/js/38.2571463d.js"><link rel="prefetch" href="/blog/assets/js/39.2f9cc2fd.js"><link rel="prefetch" href="/blog/assets/js/4.69c4a582.js"><link rel="prefetch" href="/blog/assets/js/40.7903fce3.js"><link rel="prefetch" href="/blog/assets/js/41.898fdea0.js"><link rel="prefetch" href="/blog/assets/js/42.59061c98.js"><link rel="prefetch" href="/blog/assets/js/43.db1479b9.js"><link rel="prefetch" href="/blog/assets/js/44.0670a23d.js"><link rel="prefetch" href="/blog/assets/js/45.e50482d5.js"><link rel="prefetch" href="/blog/assets/js/46.0d2d191b.js"><link rel="prefetch" href="/blog/assets/js/47.e70cbf71.js"><link rel="prefetch" href="/blog/assets/js/48.43575794.js"><link rel="prefetch" href="/blog/assets/js/49.d7b305be.js"><link rel="prefetch" href="/blog/assets/js/5.0fe73cb2.js"><link rel="prefetch" href="/blog/assets/js/50.d316483b.js"><link rel="prefetch" href="/blog/assets/js/51.9b9c860a.js"><link rel="prefetch" href="/blog/assets/js/53.a112b976.js"><link rel="prefetch" href="/blog/assets/js/54.c0237cb5.js"><link rel="prefetch" href="/blog/assets/js/55.b18fd02a.js"><link rel="prefetch" href="/blog/assets/js/56.6e8b568a.js"><link rel="prefetch" href="/blog/assets/js/57.bc78fd12.js"><link rel="prefetch" href="/blog/assets/js/58.fb2f70c7.js"><link rel="prefetch" href="/blog/assets/js/6.0b6b04a3.js"><link rel="prefetch" href="/blog/assets/js/7.583d1c85.js"><link rel="prefetch" href="/blog/assets/js/8.9b24f937.js"><link rel="prefetch" href="/blog/assets/js/9.34e66468.js">
+    <link rel="stylesheet" href="/blog/assets/css/0.styles.c868d9db.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div><div class="theme-container" data-v-ad130a7c><div data-v-ad130a7c><div id="loader-wrapper" class="loading-wrapper" data-v-4b73742e data-v-ad130a7c data-v-ad130a7c><div class="loader-main" data-v-4b73742e><div data-v-4b73742e></div><div data-v-4b73742e></div><div data-v-4b73742e></div><div data-v-4b73742e></div></div> <!----> <!----></div> <div class="password-shadow password-wrapper-out is-home" style="display:none;" data-v-262b1d1e data-v-ad130a7c data-v-ad130a7c><h3 class="title" data-v-262b1d1e>pr1mavera's blog</h3> <p class="description" data-v-262b1d1e>一切不成体系的知识碎片都只能当做无聊的消遣</p> <label id="box" class="inputBox" data-v-262b1d1e><input type="password" value="" data-v-262b1d1e> <span data-v-262b1d1e>Konck! Knock!</span> <button data-v-262b1d1e>OK</button></label> <div class="footer" data-v-262b1d1e><span data-v-262b1d1e><i class="iconfont reco-theme" data-v-262b1d1e></i> <a target="blank" href="https://vuepress-theme-reco.recoluan.com" data-v-262b1d1e>vuePress-theme-reco</a></span> <span data-v-262b1d1e><i class="iconfont reco-other" data-v-262b1d1e></i> <a data-v-262b1d1e>pr1mavera</a></span> <span data-v-262b1d1e><i class="iconfont reco-copyright" data-v-262b1d1e></i> <a data-v-262b1d1e>2020</a></span></div></div> <div class="hide" data-v-ad130a7c><header class="navbar" data-v-ad130a7c><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/blog/" class="home-link router-link-active"><img src="/blog/img/logo.png" alt="pr1mavera's blog" class="logo"> <span class="site-name">pr1mavera's blog</span></a> <div class="links"><!----> <div class="fullscreen-wrapper screenfull" data-v-669fca12><svg t="1574746366011" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5517" width="200" height="200" class="icon" data-v-669fca12><path d="M223.51420462 330.2102269h1.49573886c0 32.21590925 0.26846576 64.43181848-0.19176196 96.64772772-0.15340924 8.8977269 2.9914769 11.16051113 11.390625 10.96875 19.06107962-0.3835231 38.16051113-0.23011387 57.22159158 0.421875 8.24573887 0.26846576 10.9303981-2.30113613 10.6235788-10.62357962-0.76704538-19.67471576-0.65198887-39.38778425-0.84375-59.0625 0-2.0710231-0.65198887-4.6789769 1.87926197-5.82954538 2.5696019-1.15056848 3.8352269 1.2272731 5.40767037 2.60795462 1.15056848 1.03551113 2.22443152 2.18607962 3.33664728 3.29829538 35.09232962 35.0539769 70.26136387 70.03125 105.16193235 105.27698886 5.59943152 5.63778425 9.47301113 7.47869348 15.83948803 0.61363614 12.54119348-13.5 25.61931848-26.5397731 39.11931848-39.11931849 6.86505652-6.3664769 7.09517038-10.47017038 0.19176114-17.22017037-35.8210231-35.16903424-71.22017038-70.79829538-106.69602228-106.35085189-1.91761387-1.91761387-5.36931848-3.72017038-4.37215924-6.71164812 1.2272731-3.87357962 5.29261387-2.33948887 8.20738613-2.30113613 19.3678981 0.07670462 38.73579538 0.15340924 58.14204539 0.72869348 6.90340925 0.19176113 9.39630652-2.0710231 9.2428981-9.08948886-0.4602269-20.32670462-0.65198887-40.65340925-0.421875-60.98011386 0.07670462-7.1335231-2.76136387-9.01278424-9.47301114-9.05113614-65.31392038-0.30681848-130.66619348-0.76704538-195.98011386-1.53409076-7.74715924-0.11505652-9.47301113 2.68465925-9.43465924 9.81818152 0.30681848 32.484375 0.15340924 65.0071019 0.15340924 97.52982962m433.61079538 466.36363613l20.55681848 0.11505735c0.53693152 0.26846576 1.11221576 0.76704538 1.6875 0.76704538 37.43181848 0.26846576 74.90198887 0.421875 112.37215842 0.84375 6.25142038 0.07670462 7.09517038-3.06818152 7.05681848-8.16903424-0.30681848-23.77840924-0.23011387-47.48011387-0.69034076-71.18181849-0.26846576-14.65056848 1.11221576-29.30113613-0.92045462-43.875l-0.11505652-18.44744265c1.80255652-22.12926113 0.15340924-44.296875 0.53693152-66.42613697 0.11505652-5.5227269-3.14488613-6.7116481-7.86221575-6.71164726-21.24715925 0-42.49431848 0-63.74147773-0.38352312-5.9446019-0.11505652-7.5553981 2.41619348-7.44034077 7.82386387 0.26846576 16.22301113 0.23011387 32.484375 0.26846577 48.70738613v21.09375c-5.13920462-1.61079538-7.28693152-4.83238613-9.77982962-7.32528423-35.51420462-35.4758519-71.10511387-70.9133519-106.3508519-106.65767039-5.59943152-5.67613613-9.08948887-5.5227269-14.3821019 0-13.42329538 13.99857962-27.07670462 27.69034075-41.03693235 41.03693235-5.56107962 5.36931848-5.71448887 8.8210231-0.03835188 14.42045462 35.55255652 35.015625 70.75994348 70.37642038 105.96732961 105.73721577 2.68465925 2.68465925 6.51988613 4.71732962 7.32528342 9.28125-3.29829538 2.109375-6.7883519 1.15056848-10.04829538 1.15056765-19.40625 0-38.73579538-0.15340924-58.14204539-0.26846577-4.52556848 0-8.8210231-0.3835231-8.70596575 6.44318235 0.30681848 21.86079538 0.30681848 43.75994348 0.3835231 65.65909077 0 4.6022731 1.91761387 6.98011387 6.67329539 6.90340923 22.12926113-0.3835231 44.296875 1.265625 66.42613613-0.53693235M513.2272731 90.20170462c113.5227269 0 226.96875 0.11505652 340.453125-0.07670462 27.4602269-0.0383519 49.97301113 9.47301113 66.42613614 31.75568152 11.08380652 14.95738613 14.19034075 32.21590925 14.19034076 50.43323886-0.11505652 109.41903425-0.0383519 218.83806848-0.0383519 328.29545462 0 117.20454538-0.11505652 234.44744348 0.0767038 351.69034076 0.0383519 27.34517038-8.8977269 50.01136387-31.14204538 66.77130734-15.1875 11.50568152-32.59943152 14.765625-51.12357962 14.765625-127.8664769-0.07670462-255.73295462-0.0383519-383.59943152-0.03835272-98.79545462 0-197.59090924-0.15340924-296.38636386 0.07670462-27.72869348 0.07670462-50.6633519-9.12784076-67.34659077-31.83238613-11.0071019-14.95738613-14.19034075-32.13920462-14.15198885-50.43323887 0.11505652-141.59659076 0.07670462-283.23153424 0.07670462-424.8664769 0-85.33380652 0.11505652-170.66761387-0.07670462-256.0397731C90.5852269 143.28125 99.98153424 120.73011387 122.34090925 104.31534075c14.95738613-11.0071019 32.21590925-14.19034075 50.43323885-14.15198885 113.5227269 0.15340924 226.96875 0.07670462 340.453125 0.07670462" p-id="5518" data-v-669fca12></path></svg></div> <div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <!----></div></header> <div class="sidebar-mask" data-v-ad130a7c></div> <aside class="sidebar" data-v-ad130a7c><!---->  <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>无聊的消遣</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/blog/whatever/snabbdom源码分析.html" class="active sidebar-link">snabbdom 源码分析</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/blog/whatever/snabbdom源码分析.html#dom-diff-意义" class="sidebar-link">DOM-diff 意义</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/blog/whatever/snabbdom源码分析.html#浏览器环境中的操作成本" class="sidebar-link">浏览器环境中的操作成本</a></li><li class="sidebar-sub-header"><a href="/blog/whatever/snabbdom源码分析.html#计算层面时间复杂度上的意义" class="sidebar-link">计算层面时间复杂度上的意义</a></li></ul></li><li class="sidebar-sub-header"><a href="/blog/whatever/snabbdom源码分析.html#目录结构" class="sidebar-link">目录结构</a></li><li class="sidebar-sub-header"><a href="/blog/whatever/snabbdom源码分析.html#基本使用" class="sidebar-link">基本使用</a></li><li class="sidebar-sub-header"><a href="/blog/whatever/snabbdom源码分析.html#vnode-数据结构" class="sidebar-link">VNode 数据结构</a></li><li class="sidebar-sub-header"><a href="/blog/whatever/snabbdom源码分析.html#h-渲染" class="sidebar-link">h | 渲染</a></li><li class="sidebar-sub-header"><a href="/blog/whatever/snabbdom源码分析.html#patch-更新" class="sidebar-link">patch | 更新</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/blog/whatever/snabbdom源码分析.html#patch" class="sidebar-link">patch</a></li><li class="sidebar-sub-header"><a href="/blog/whatever/snabbdom源码分析.html#vnode-映射成-dom" class="sidebar-link">VNode 映射成 dom</a></li><li class="sidebar-sub-header"><a href="/blog/whatever/snabbdom源码分析.html#patchvnode" class="sidebar-link">patchVnode</a></li><li class="sidebar-sub-header"><a href="/blog/whatever/snabbdom源码分析.html#hook" class="sidebar-link">hook</a></li></ul></li><li class="sidebar-sub-header"><a href="/blog/whatever/snabbdom源码分析.html#总结" class="sidebar-link">总结</a></li></ul></li><li><a href="/blog/whatever/客户行为收集sdk项目记录.html" class="sidebar-link">客户行为收集sdk项目记录</a></li><li><a href="/blog/whatever/记一次算法在前端的实际应用.html" class="sidebar-link">记一次算法在前端的实际应用</a></li><li><a href="/blog/whatever/对于MV*的理解.html" class="sidebar-link">对于MV*的理解</a></li><li><a href="/blog/whatever/cube-ui-“精致”的前端UI组件框架.html" class="sidebar-link">cube-ui - “精致”的前端UI组件框架</a></li><li><a href="/blog/whatever/华夏视频服务.html" class="sidebar-link">华夏视频服务</a></li><li><a href="/blog/whatever/RxJS的响应式原理.html" class="sidebar-link">RxJS的响应式原理</a></li><li><a href="/blog/whatever/可视化埋点JS-SDK技术方案.html" class="sidebar-link">可视化埋点JS-SDK技术方案</a></li></ul></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>计算机科学基础</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>前端基础</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>手写代码</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>浏览器原理及性能优化</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>nodeJs</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>ES6</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>函数式编程</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>框架与原理</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>前端工程实践</span> <span class="arrow right"></span></p> <!----></section></li></ul> </aside> <div class="password-shadow password-wrapper-in" style="display:none;" data-v-262b1d1e data-v-ad130a7c><h3 class="title" data-v-262b1d1e>snabbdom 源码分析</h3> <!----> <label id="box" class="inputBox" data-v-262b1d1e><input type="password" value="" data-v-262b1d1e> <span data-v-262b1d1e>Konck! Knock!</span> <button data-v-262b1d1e>OK</button></label> <div class="footer" data-v-262b1d1e><span data-v-262b1d1e><i class="iconfont reco-theme" data-v-262b1d1e></i> <a target="blank" href="https://vuepress-theme-reco.recoluan.com" data-v-262b1d1e>vuePress-theme-reco</a></span> <span data-v-262b1d1e><i class="iconfont reco-other" data-v-262b1d1e></i> <a data-v-262b1d1e>pr1mavera</a></span> <span data-v-262b1d1e><i class="iconfont reco-copyright" data-v-262b1d1e></i> <a data-v-262b1d1e>2020</a></span></div></div> <div data-v-ad130a7c><main class="page reco-hide"> <div class="page-title"><h1>snabbdom 源码分析</h1> <hr> <div data-v-7b49930f><i class="iconfont reco-account" data-v-7b49930f><span data-v-7b49930f>pr1mavera</span></i> <i class="iconfont reco-date" data-v-7b49930f><span data-v-7b49930f>2019/11/29</span></i> <!----> <i class="iconfont reco-tag tags" data-v-7b49930f><span class="tag-item" data-v-7b49930f>
+      源码
+    </span></i></div></div> <div class="theme-reco-content content__default"><h2 id="dom-diff-意义"><a href="#dom-diff-意义" class="header-anchor">#</a> DOM-diff 意义</h2> <p>DOM-diff 算法描述：diff 两颗 Virtual DOM 树，并执行最小更新！！！</p> <p>为了真正弄明白这个现代前端框架最为核心的算法，我们首先要理解 DOM-diff 在前端存在的意义</p> <h3 id="浏览器环境中的操作成本"><a href="#浏览器环境中的操作成本" class="header-anchor">#</a> 浏览器环境中的操作成本</h3> <p>先分析一下传统方式 <code>使用纯dom操作的方式</code> 与 <code>使用 Virtual DOM + DOM-diff</code> 两种渲染方式真正消耗资源的地方：</p> <ul><li><code>使用纯dom操作的方式</code> - 单纯的dom操作，如果节点产生变化即替换 innerHTML，这种方式在<strong>一整段文档片段全部改变的时候</strong>似乎是合理的，然而如果<strong>文档片段中只有一小个标签发生了改变</strong>，替换整个文档片段就造成了巨大的浪费，因此花费的时间是依赖的是文档大小 - <u>即不管数据变化的多少，文档片段结构越多花费的时间越多</u></li> <li><code>使用 Virtual DOM + DOM-diff</code> - 这种方式的时间开销发生在「js逻辑层面的计算」和「操作需要更新的DOM」，然而js逻辑层面的计算相较于DOM操作来说快太多了，快到可以忽略不计，但此处花费的时间的依赖是需要变化的部分 - <u>即即使文档片段结构很复杂，花费的时间也只与修改变化的部分相关，将重回重排的时间压缩到一个可以接受的范围</u></li></ul> <p>真实的前端场景中，视图变化多发生在兄弟节点之间，那么 <code>使用 Virtual DOM + DOM-diff</code> 的渲染方式则更加合理，更加高效</p> <h3 id="计算层面时间复杂度上的意义"><a href="#计算层面时间复杂度上的意义" class="header-anchor">#</a> 计算层面时间复杂度上的意义</h3> <p>针对刚刚提到的「js逻辑层面的计算」，在时间复杂度方面也存在可以压缩的地方！！</p> <p>DOM-diff 来自于算法中一个典型的问题：<a href="https://leetcode.com/problems/edit-distance/" target="_blank" rel="noopener noreferrer">最小编辑距离的问题<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a>（相关算法比如 Git提交之前会进行一次对象的diff操作）<br>
+最小编辑距离算法的时间复杂度为 <code>O(n^2m(1+logmn))</code> ，假设 <code>m</code> 与 <code>n</code> 同阶，则复杂度为 <code>O(n^3)</code>
+同理对于树结构，我们可以定义三种操作方式：</p> <ol><li>删除 - 删除一个节点，将它的 children 交给它的父节点</li> <li>插入 - 在 children 中，插入一个节点</li> <li>修改 - 修改节点的值<br>
+具象这三种操作后，我们便可以将一棵树转化为另外一棵树，而修改最少的方式便可以作为这一类问题的解，可以感性的理解：若前后两个树的每个节点两两比较，这就需要 <code>O(n^2)</code> ，而比较完成找到差异之后还需要计算最小转换方式，最终平均复杂度为 <code>O(n^3)</code></li></ol> <p>但是 <code>O(n^3)</code> 真的值得嘛？</p> <p><strong><u>若前后两个节点的类型不相同，那么大多数情况下这两个元素的内容基本也不会复用，因此在处理浏览器dom节点这个场景下，直接删除再添加新的节点往往比较符合真实需求</u></strong><br>
+因此 React、Vue 都假设：（React、Vue 的 DOM-diff 算法都是基于 snabbdom 改造而来的）</p> <ul><li>检测 VNode 的变化只发生在同一层（实际上变化发生在不同层级的情况非常少）</li> <li>检测 VNode 的变化依赖于用户指定的key（若同样的元素指定了不同的key或者不同元素指定同样的key，则通过提示开发者去解决）</li></ul> <p>因此下面这个问题，在 React 中的解决过程就变成了：（与 snabbdom 的diff策略有所区别）</p> <div class="language-code extra-class"><pre class="language-text"><code>        Prev                  Last
+
+          A                     A  
+         / \                   / \
+        /   \                 /   \
+       B     D     ====&gt;     D     B
+      /                             \
+     C                               C
+</code></pre></div><p><code>Prev A -&gt; Last A</code> ---&gt; <code>相同，下一个</code> <code>Prev B -&gt; Last D</code> ---&gt; <code>不同，替换</code> <code>Prev D -&gt; Last B</code> ---&gt; <code>不同，替换</code> <code>Prev C -&gt; Last _</code> ---&gt; <code>更新后该节点不存在，删除该位置的节点</code> <code>Prev _ -&gt; Last C</code> ---&gt; <code>更新前该节点缺少，添加节点到该位置</code></p> <p>每个新旧节点遍历一次，标准的 <code>O(n)</code> ，相较于 <code>O(n^3)</code> 大幅度的减少了时间复杂度</p> <p>接下来详细分析一下 snabbdom 的实现细节，这里采用开源社区一个 es6 的简版进行分析，GitHub：<a href="https://github.com/creeperyang/blog/tree/master/codes/snabbdom/" target="_blank" rel="noopener noreferrer">snabbdom的ES6版本<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a>，核心功能实现与官方 TS 版本一毛一样</p> <h2 id="目录结构"><a href="#目录结构" class="header-anchor">#</a> 目录结构</h2> <div class="language-bash extra-class"><pre class="language-bash"><code>src
+├── domApi.js    <span class="token comment"># dom api，主要是各种 DOM 操作的包装，快速浏览即可</span>
+├── export.js    <span class="token comment"># export，决定暴露什么接口给调用者，可忽略</span>
+├── h.js         <span class="token comment"># `h()`帮助函数，很简单</span>
+├── index.js     <span class="token comment"># 核心代码，Virtual DOM 的 diff 实现，从 Virtual DOM 构建 DOM 等等</span>
+├── modules      <span class="token comment"># 各个模块，主要负责属性处理</span>
+│   ├── class.js
+│   ├── props.js
+│   └── style.js
+├── utils.js     <span class="token comment"># util 函数</span>
+└── vnode.js     <span class="token comment"># vnode 定义和一些相关函数</span>
+</code></pre></div><h2 id="基本使用"><a href="#基本使用" class="header-anchor">#</a> 基本使用</h2> <p>snabbdom 向外暴露的两个API：</p> <ul><li><code>h</code> 提供参数，生成vnode</li> <li><code>patch</code> 比较新旧vnode，递归比较各级节点（diff），并将更新映射到真实dom</li></ul> <div class="language-html extra-class"><pre class="language-html"><code><span class="token doctype">&lt;!DOCTYPE html&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">charset</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>utf-8<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>title</span><span class="token punctuation">&gt;</span></span>snabbdom-demo<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>title</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>snabbdom.js<span class="token punctuation">&quot;</span></span> <span class="token attr-name">charset</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>utf-8<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>container<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div><div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> h<span class="token punctuation">,</span> patch <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'snabbdom'</span>
+
+<span class="token comment">// 最初始的 dom 容器</span>
+<span class="token keyword">const</span> container <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'container'</span><span class="token punctuation">)</span>
+<span class="token comment">// 替换的容器</span>
+<span class="token keyword">function</span> <span class="token function">createVNodeframe</span><span class="token punctuation">(</span><span class="token parameter">list</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token function">h</span><span class="token punctuation">(</span>
+        <span class="token string">'div'</span><span class="token punctuation">,</span>
+        <span class="token punctuation">{</span>
+            id<span class="token punctuation">:</span> <span class="token string">'container'</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">[</span>
+            <span class="token function">h</span><span class="token punctuation">(</span>
+                <span class="token string">'ul'</span><span class="token punctuation">,</span>
+                <span class="token punctuation">{</span>
+                    id<span class="token punctuation">:</span> <span class="token string">'footer'</span><span class="token punctuation">,</span>
+                    className<span class="token punctuation">:</span> <span class="token string">'hello hi'</span><span class="token punctuation">,</span>
+                    style<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+                        color<span class="token punctuation">:</span> <span class="token string">'#666'</span>
+                    <span class="token punctuation">}</span>
+                <span class="token punctuation">}</span><span class="token punctuation">,</span>
+                list
+            <span class="token punctuation">)</span>
+        <span class="token punctuation">]</span>
+    <span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+<span class="token comment">// 动态生成列表</span>
+<span class="token keyword">function</span> <span class="token function">getList</span><span class="token punctuation">(</span><span class="token parameter">count</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token function">Array</span><span class="token punctuation">.</span><span class="token function">apply</span><span class="token punctuation">(</span><span class="token keyword">null</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> length<span class="token punctuation">:</span> count <span class="token punctuation">}</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">v<span class="token punctuation">,</span> i</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token parameter">n</span> <span class="token operator">=&gt;</span> <span class="token function">h</span><span class="token punctuation">(</span>
+                <span class="token string">'li'</span><span class="token punctuation">,</span>
+                <span class="token punctuation">{</span>
+                    className<span class="token punctuation">:</span> <span class="token string">'item'</span><span class="token punctuation">,</span>
+                    key<span class="token punctuation">:</span> n
+                <span class="token punctuation">}</span><span class="token punctuation">,</span>
+                <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">number is </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>n<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span>
+            <span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// 生成vnode1</span>
+<span class="token keyword">const</span> vnode1 <span class="token operator">=</span> <span class="token function">createVNodeframe</span><span class="token punctuation">(</span><span class="token function">getList</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment">// 生成vnode2</span>
+<span class="token keyword">const</span> vnode2 <span class="token operator">=</span> <span class="token function">createVNodeframe</span><span class="token punctuation">(</span><span class="token function">getList</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+<span class="token function">patch</span><span class="token punctuation">(</span>container<span class="token punctuation">,</span> vnode1<span class="token punctuation">)</span>
+<span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token function">patch</span><span class="token punctuation">(</span>vnode1<span class="token punctuation">,</span> vnode2<span class="token punctuation">)</span> <span class="token comment">// 2秒之后列表从 3 个变成 10 个</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">2000</span><span class="token punctuation">)</span>
+</code></pre></div> <h2 id="vnode-数据结构"><a href="#vnode-数据结构" class="header-anchor">#</a> VNode 数据结构</h2> <div class="language-ts extra-class"><pre class="language-ts"><code>VNode<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    __type<span class="token punctuation">:</span> <span class="token builtin">symbol</span> <span class="token operator">|</span> undefined <span class="token comment">/*                   全局统一的 Symbol 常量，标识该节点为vnode节点 */</span>
+    <span class="token keyword">type</span><span class="token punctuation">:</span> <span class="token builtin">string</span> <span class="token operator">|</span> undefined <span class="token comment">/*                     节点类型，如 'div' */</span>
+    key<span class="token punctuation">:</span> <span class="token builtin">string</span> <span class="token operator">|</span> undefined <span class="token comment">/*                      key，用于 diff 的时候比较是否是同一个vnode节点 */</span>
+    data<span class="token punctuation">:</span> VNodeData <span class="token operator">|</span> undefined <span class="token comment">/*                  data，包括节点上属性，绑定的事件等等 */</span>
+    children<span class="token punctuation">:</span> <span class="token builtin">Array</span><span class="token operator">&lt;</span>VNode <span class="token operator">|</span> <span class="token builtin">string</span><span class="token operator">&gt;</span> <span class="token operator">|</span> undefined <span class="token comment">/*  子节点的 vnode */</span>
+    text<span class="token punctuation">:</span> <span class="token builtin">string</span> <span class="token operator">|</span> undefined <span class="token comment">/*                     文本 */</span>
+    elm<span class="token punctuation">:</span> Node <span class="token operator">|</span> undefined <span class="token comment">/*                        对应的真实 dom */</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>注意：此处的 children 与 text 互斥，即要么是文本节点，要么是非文本节点。原因是 snabbdom 为了方便处理，text 节点和其它类型的节点处理起来差异很大</p> <h2 id="h-渲染"><a href="#h-渲染" class="header-anchor">#</a> <code>h</code> | 渲染</h2> <p><code>h</code> 接口用于生成 VNode，实现在 <code>src/h.js</code> 中</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">function</span> <span class="token function">h</span><span class="token punctuation">(</span><span class="token parameter">type<span class="token punctuation">,</span> config<span class="token punctuation">,</span> <span class="token operator">...</span>children</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+    <span class="token comment">// 获取 key，填充 props 对象，此处省略</span>
+
+    <span class="token comment">// 生成vnode</span>
+    <span class="token keyword">return</span> <span class="token function">vnode</span><span class="token punctuation">(</span>
+        type<span class="token punctuation">,</span>
+        key<span class="token punctuation">,</span>
+        props<span class="token punctuation">,</span>
+        <span class="token function">flattenArray</span><span class="token punctuation">(</span>children<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token parameter">c</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token function">isPrimitive</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span> <span class="token comment">/* 子节点为数字或者字符串，则映射成文本节点 */</span>
+                <span class="token operator">?</span> <span class="token function">vnode</span><span class="token punctuation">(</span><span class="token keyword">undefined</span><span class="token punctuation">,</span> <span class="token keyword">undefined</span><span class="token punctuation">,</span> <span class="token keyword">undefined</span><span class="token punctuation">,</span> <span class="token keyword">undefined</span><span class="token punctuation">,</span> c<span class="token punctuation">)</span>
+                <span class="token punctuation">:</span> c
+        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>注意</p> <ol><li>子节点若为数字或者字符串，则映射成文本节点</li> <li>此处省略了绑定 props 的过程，实际就是处理传入的 config 对象，将其 config 实例对象上的属性挂载到 props 上，再传入生成 vnode</li></ol> <h2 id="patch-更新"><a href="#patch-更新" class="header-anchor">#</a> <code>patch</code> | 更新</h2> <p><code>patch</code> 接口主要用于完成2件事情</p> <ol><li>将 VNode 映射成 dom</li> <li>节点有更新时，触发 DOM-diff</li></ol> <p>patch 的实现在 <code>src/index.js</code> 中，通过传入 modules 到 init 入口，生成 patch</p> <p>注：init 入口有两个参数， <code>modules</code> 和 <code>domApi</code></p> <ul><li><code>modules</code> 的作用是为处理节点上的 data 而做的模块化方案，比如节点中存在需要监控 class ，在 dom-diff 的过程中校验变化，那么就需要传入 class 模块</li> <li><code>domApi</code> 的作用是传入一份操作宿主环境元素的 api，用于为 <code>生成真实dom</code> 和 <code>dom-diff 比较完成后的更新</code> 提供宿主环境的支持（默认是浏览器环境），同理，可以让用户自定义平台相关的 api，增加该工具库本身的拓展性</li></ul> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">function</span> <span class="token function">init</span><span class="token punctuation">(</span><span class="token parameter">modules <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> domApi</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+    <span class="token comment">// 从 modules 初始化 hooks ，并挂载到 cbs 生命周期钩子集合上</span>
+
+    <span class="token comment">// 为实际 dom 创建 vnode</span>
+    <span class="token keyword">function</span> <span class="token function">emptyNodeAt</span><span class="token punctuation">(</span><span class="token parameter">elm</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token operator">...</span><span class="token punctuation">}</span>
+
+    <span class="token comment">// 创建 remove 回调函数</span>
+    <span class="token keyword">function</span> <span class="token function">createRmCb</span><span class="token punctuation">(</span><span class="token parameter">childElm<span class="token punctuation">,</span> listeners</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token operator">...</span><span class="token punctuation">}</span>
+
+    <span class="token comment">// 为 vnode（tree） 实际创建 dom（未插入文档）</span>
+    <span class="token keyword">function</span> <span class="token function">createElm</span><span class="token punctuation">(</span><span class="token parameter">vnode<span class="token punctuation">,</span> insertedVnodeQueue</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token operator">...</span><span class="token punctuation">}</span>
+
+    <span class="token comment">// 对 vnode 及其 children 递归执行 destroy hook</span>
+    <span class="token keyword">function</span> <span class="token function">invokeDestroyHook</span><span class="token punctuation">(</span><span class="token parameter">vnode</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token operator">...</span><span class="token punctuation">}</span>
+
+    <span class="token comment">// 从 parent dom 删除 vnode 数组对应的 dom</span>
+    <span class="token keyword">function</span> <span class="token function">removeVnodes</span><span class="token punctuation">(</span><span class="token parameter">parentElm<span class="token punctuation">,</span> vnodes<span class="token punctuation">,</span> startIdx<span class="token punctuation">,</span> endIdx</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token operator">...</span><span class="token punctuation">}</span>
+
+    <span class="token comment">// 添加 vnode 数组对应的 dom 到 parent dom</span>
+    <span class="token keyword">function</span> <span class="token function">addVnodes</span><span class="token punctuation">(</span><span class="token parameter">parentElm<span class="token punctuation">,</span> before<span class="token punctuation">,</span> vnodes<span class="token punctuation">,</span> startIdx<span class="token punctuation">,</span> endIdx<span class="token punctuation">,</span> insertedVnodeQueue</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token operator">...</span><span class="token punctuation">}</span>
+
+    <span class="token comment">// 比较新旧 children 并更新</span>
+    <span class="token keyword">function</span> <span class="token function">updateChildren</span><span class="token punctuation">(</span><span class="token parameter">parentElm<span class="token punctuation">,</span> oldCh<span class="token punctuation">,</span> newCh<span class="token punctuation">,</span> insertedVnodeQueue</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token operator">...</span><span class="token punctuation">}</span>
+
+    <span class="token comment">// patch oldVnode 和 vnode （它们是相同的 vnode）</span>
+    <span class="token comment">// 1. 更新本身对应 dom 的 textContent/children/其它属性；</span>
+    <span class="token comment">// 2. 根据 children 的变化去决定是否递归 patch children 里的每个 vnode。</span>
+    <span class="token keyword">function</span> <span class="token function">patchVnode</span><span class="token punctuation">(</span><span class="token parameter">oldVnode<span class="token punctuation">,</span> vnode<span class="token punctuation">,</span> insertedVnodeQueue</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token operator">...</span><span class="token punctuation">}</span>
+
+    <span class="token keyword">return</span> <span class="token keyword">function</span> <span class="token function">patch</span><span class="token punctuation">(</span><span class="token parameter">oldVnode<span class="token punctuation">,</span> vnode</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token operator">...</span><span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h3 id="patch"><a href="#patch" class="header-anchor">#</a> patch</h3> <p>看看 patch 做了啥</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">return</span> <span class="token keyword">function</span> <span class="token function">patch</span><span class="token punctuation">(</span><span class="token parameter">oldVnode<span class="token punctuation">,</span> vnode</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> elm<span class="token punctuation">,</span> parent
+    <span class="token keyword">const</span> insertedVnodeQueue <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token keyword">let</span> i
+    <span class="token comment">// 调用 pre hook</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span>i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> cbs<span class="token punctuation">.</span>pre<span class="token punctuation">.</span>length<span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> cbs<span class="token punctuation">.</span>pre<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    <span class="token comment">// 如果 oldVnode 不是 vnode（即是 dom），创建 vnode</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">isVnode</span><span class="token punctuation">(</span>oldVnode<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        oldVnode <span class="token operator">=</span> <span class="token function">emptyNodeAt</span><span class="token punctuation">(</span>oldVnode<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// 如果 oldVnode 和 vnode 是相同的 vnode，执行 patch</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">isSameVnode</span><span class="token punctuation">(</span>oldVnode<span class="token punctuation">,</span> vnode<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">patchVnode</span><span class="token punctuation">(</span>oldVnode<span class="token punctuation">,</span> vnode<span class="token punctuation">,</span> insertedVnodeQueue<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment">// 否则，直接把 oldVnode 替换为 vnode</span>
+    <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        elm <span class="token operator">=</span> oldVnode<span class="token punctuation">.</span>elm
+        parent <span class="token operator">=</span> api<span class="token punctuation">.</span><span class="token function">parentNode</span><span class="token punctuation">(</span>elm<span class="token punctuation">)</span>
+
+        <span class="token comment">// createElm 接口直接处理 vnode.elm ，但此时 vnode.elm 并没有插入到真实文档片段中</span>
+        <span class="token function">createElm</span><span class="token punctuation">(</span>vnode<span class="token punctuation">,</span> insertedVnodeQueue<span class="token punctuation">)</span>
+
+        <span class="token comment">// 如果原 vnode 有 parent，那么插入新 vnode 对应的 dom，删除原 dom</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>parent <span class="token operator">!==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            api<span class="token punctuation">.</span><span class="token function">insertBefore</span><span class="token punctuation">(</span>parent<span class="token punctuation">,</span> vnode<span class="token punctuation">.</span>elm<span class="token punctuation">,</span> api<span class="token punctuation">.</span><span class="token function">nextSibling</span><span class="token punctuation">(</span>elm<span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token function">removeVnodes</span><span class="token punctuation">(</span>parent<span class="token punctuation">,</span> <span class="token punctuation">[</span>oldVnode<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// 调用 insert hook。</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span>i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> insertedVnodeQueue<span class="token punctuation">.</span>length<span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 为什么不用判断 insert 是否存在？</span>
+        <span class="token comment">// 因为填充 insertedVnodeQueue 时已判断</span>
+        insertedVnodeQueue<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>data<span class="token punctuation">.</span>hook<span class="token punctuation">.</span><span class="token function">insert</span><span class="token punctuation">(</span>insertedVnodeQueue<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment">// 调用 post hook</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span>i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> cbs<span class="token punctuation">.</span>post<span class="token punctuation">.</span>length<span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> cbs<span class="token punctuation">.</span>post<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> vnode
+<span class="token punctuation">}</span>
+</code></pre></div><p>可以看到 patch 中主要就做了三件事情</p> <ol><li>分辨当前传入的 oldVnode 是否是 VNode ，若不是则当前为初始化，否则为更新</li> <li>判断传入的俩节点是否是同一个节点（key 相同且 type 相同），相同则进入 patchVnode 流程，不同则舍弃该节点及其子节点（react中似乎处理方式不同），执行 createElm 在新的 VNode 上重新生成dom节点 <code>vnode.elm</code> ，绑定在之前的父节点上</li> <li>在对应的 patch 生命周期中触发钩子</li></ol> <p>因此我们可以大致梳理一下 snabbdom 的工作流程：</p> <ul><li>初始化：
+<ol><li>首先根据结构化配置数据通过 <code>h</code> 生成 VNode</li> <li>将 VNode 挂载到对应的父节点</li></ol></li> <li>更新
+3. 由于某些原因修改了结构化数据，触发生成了一份新的 VNode
+4. 比较 oldVnode 与 newVnode 两个节点树，对于变化的部分映射到真实dom上</li></ul> <p>接下来我们分别来看几个问题：</p> <ol><li>如何将「VNode」映射成「真实dom」？</li> <li>对于同一个节点如何比较新旧两个节点树的变化（patchVnode）？</li> <li>刚刚提到一个「生命周期钩子」的概念，在 snabbdom 中是如何挂载并正确执行的？</li></ol> <h3 id="vnode-映射成-dom"><a href="#vnode-映射成-dom" class="header-anchor">#</a> VNode 映射成 dom</h3> <p>在 <code>createElm</code> 这个函数中会将 VNode 映射成 dom （未挂载）</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// 为 vnode（tree） 实际创建 dom（未插入文档）</span>
+<span class="token keyword">function</span> <span class="token function">createElm</span><span class="token punctuation">(</span><span class="token parameter">vnode<span class="token punctuation">,</span> insertedVnodeQueue</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 节点属性</span>
+    <span class="token keyword">let</span> data <span class="token operator">=</span> vnode<span class="token punctuation">.</span>data
+    <span class="token keyword">let</span> i
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>data<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 调用 init hook</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>data<span class="token punctuation">.</span>hook <span class="token operator">&amp;&amp;</span> <span class="token punctuation">(</span>i <span class="token operator">=</span> data<span class="token punctuation">.</span>hook<span class="token punctuation">.</span>init<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token function">i</span><span class="token punctuation">(</span>vnode<span class="token punctuation">)</span>
+            <span class="token comment">// data 可能在 init hook 中被改变，重新获取。</span>
+            data <span class="token operator">=</span> vnode<span class="token punctuation">.</span>data
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        data <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// 节点子节点</span>
+    <span class="token keyword">let</span> children <span class="token operator">=</span> vnode<span class="token punctuation">.</span>children
+    <span class="token comment">// 节点类型</span>
+    <span class="token keyword">let</span> type <span class="token operator">=</span> vnode<span class="token punctuation">.</span>type
+
+    <span class="token comment">// 处理 type 为注释的节点</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>type <span class="token operator">===</span> <span class="token string">'comment'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>vnode<span class="token punctuation">.</span>text <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            vnode<span class="token punctuation">.</span>text <span class="token operator">=</span> <span class="token string">''</span>
+        <span class="token punctuation">}</span>
+        vnode<span class="token punctuation">.</span>elm <span class="token operator">=</span> api<span class="token punctuation">.</span><span class="token function">createComment</span><span class="token punctuation">(</span>vnode<span class="token punctuation">.</span>text<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment">// 处理其它 type 的节点</span>
+    <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>type<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">const</span> elm <span class="token operator">=</span> vnode<span class="token punctuation">.</span>elm <span class="token operator">=</span> data<span class="token punctuation">.</span>ns
+            <span class="token operator">?</span> api<span class="token punctuation">.</span><span class="token function">createElementNS</span><span class="token punctuation">(</span>data<span class="token punctuation">.</span>ns<span class="token punctuation">,</span> type<span class="token punctuation">)</span>
+            <span class="token punctuation">:</span> api<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span>type<span class="token punctuation">)</span>
+
+        <span class="token comment">// 调用 create hook</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> cbs<span class="token punctuation">.</span>create<span class="token punctuation">.</span>length<span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> cbs<span class="token punctuation">.</span>create<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">(</span>emptyNode<span class="token punctuation">,</span> vnode<span class="token punctuation">)</span>
+
+        <span class="token comment">// 分别处理 children 和 text</span>
+        <span class="token comment">// 这里隐含一个逻辑：vnode 的 children 和 text 不会／应该同时存在。</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">isArray</span><span class="token punctuation">(</span>children<span class="token punctuation">)</span> <span class="token comment">/* 此时 vnode.text 应该为 undefined */</span> <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">// 递归 children，保证 vnode tree 中每个 vnode 都有自己对应的 dom；</span>
+            <span class="token comment">// 即构建 vnode tree 对应的 dom tree</span>
+            children<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token parameter">ch</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+                ch <span class="token operator">&amp;&amp;</span> api<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>elm<span class="token punctuation">,</span> <span class="token function">createElm</span><span class="token punctuation">(</span>ch<span class="token punctuation">,</span> insertedVnodeQueue<span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token punctuation">}</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">isPrimitive</span><span class="token punctuation">(</span>vnode<span class="token punctuation">.</span>text<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            api<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>elm<span class="token punctuation">,</span> api<span class="token punctuation">.</span><span class="token function">createTextNode</span><span class="token punctuation">(</span>vnode<span class="token punctuation">.</span>text<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment">// 调用 create hook</span>
+        <span class="token comment">// 为 insert hook 填充 insertedVnodeQueue</span>
+        i <span class="token operator">=</span> vnode<span class="token punctuation">.</span>data<span class="token punctuation">.</span>hook
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>i<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            i<span class="token punctuation">.</span>create <span class="token operator">&amp;&amp;</span> i<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span>emptyNode<span class="token punctuation">,</span> vnode<span class="token punctuation">)</span>
+            i<span class="token punctuation">.</span>insert <span class="token operator">&amp;&amp;</span> insertedVnodeQueue<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>vnode<span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment">// 处理文本节点</span>
+    <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        vnode<span class="token punctuation">.</span>elm <span class="token operator">=</span> api<span class="token punctuation">.</span><span class="token function">createTextNode</span><span class="token punctuation">(</span>vnode<span class="token punctuation">.</span>text<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// 最终返回根节点上挂载的真实dom</span>
+    <span class="token keyword">return</span> vnode<span class="token punctuation">.</span>elm
+<span class="token punctuation">}</span>
+</code></pre></div><p>大致思路就是<u><strong>将 VNode 传入，根据 type 生成对应的真实dom节点，根据 data 挂载节点属性，同时递归子节点数组生成dom</strong></u><br>
+另外此处需要处理 VNode 生命周期钩子，触发 init、create 钩子，记录节点插入的 insert 钩子</p> <h3 id="patchvnode"><a href="#patchvnode" class="header-anchor">#</a> patchVnode</h3> <p>终于到了 DOM-diff 算法最核心的部分，这也是前端中发生最频繁的场景，即「对于同一个节点比较新旧两个节点树的变化」</p> <p>首先新旧两个节点树的子节点可能存在以下情况</p> <ol><li>新旧节点同时存在子节点</li> <li>旧的VNode不存在子节点，新的VNode存在</li> <li>新的VNode不存在子节点，旧的VNode存在</li> <li>新的VNode不存在文本，旧的存在</li> <li>新的VNode的子节点只存在文本，且与旧的VNode的不同</li></ol> <p>因此 patchVnode 就是针对这些情况做后续dom更新策略的分流操作：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">function</span> <span class="token function">patchVnode</span><span class="token punctuation">(</span><span class="token parameter">oldVnode<span class="token punctuation">,</span> vnode<span class="token punctuation">,</span> insertedVnodeQueue</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 因为 vnode 和 oldVnode 是相同的 vnode，可以复用 oldVnode.elm</span>
+    <span class="token keyword">const</span> elm <span class="token operator">=</span> vnode<span class="token punctuation">.</span>elm <span class="token operator">=</span> oldVnode<span class="token punctuation">.</span>elm
+    <span class="token keyword">let</span> oldCh <span class="token operator">=</span> oldVnode<span class="token punctuation">.</span>children
+    <span class="token keyword">let</span> ch <span class="token operator">=</span> vnode<span class="token punctuation">.</span>children
+
+    <span class="token comment">// 如果 oldVnode 和 vnode 是同一个，说明无需更新，直接返回。</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>oldVnode <span class="token operator">===</span> vnode<span class="token punctuation">)</span> <span class="token keyword">return</span>
+
+    <span class="token comment">// 如果 vnode.text 是 undefined</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>vnode<span class="token punctuation">.</span>text <span class="token operator">===</span> <span class="token keyword">undefined</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 1. 新旧节点同时存在子节点，比较 old children 和 new children，并更新</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>oldCh <span class="token operator">&amp;&amp;</span> ch<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">// ...</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment">// 2. 旧的VNode不存在子节点，新的VNode存在，添加新 children</span>
+        <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>ch<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">// ...</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment">// 3. 新的VNode不存在子节点，旧的VNode存在，删除 children。</span>
+        <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>oldCh<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">// ...</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment">// 4. 新的VNode不存在文本，旧的存在，删除。</span>
+        <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>oldVnode<span class="token punctuation">.</span>text<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">// ...</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment">// 5. 新的VNode的子节点只存在文本，且与旧的VNode的不同，则更新文本</span>
+    <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>oldVnode<span class="token punctuation">.</span>text <span class="token operator">!==</span> vnode<span class="token punctuation">.</span>text<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// ...</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>后面四种情况都只需要单纯的删除、添加或替换子节点内容，第一种情况的操作最为复杂，同时也是 DOM-diff 的核心所在，需要根据开发者传入的关键字 <code>key</code> 校验新旧子节点列表中是否存在可以重复利用的元素节点，对dom执行最小的更新</p> <p>该逻辑在 <code>updateChildren</code> 函数中</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">function</span> <span class="token function">updateChildren</span><span class="token punctuation">(</span><span class="token parameter">parentElm<span class="token punctuation">,</span> oldCh<span class="token punctuation">,</span> newCh<span class="token punctuation">,</span> insertedVnodeQueue</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> oldStartIdx <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> newStartIdx <span class="token operator">=</span> <span class="token number">0</span>
+    <span class="token keyword">let</span> oldEndIdx <span class="token operator">=</span> oldCh<span class="token punctuation">.</span>length <span class="token operator">-</span> <span class="token number">1</span>
+    <span class="token keyword">let</span> oldStartVnode <span class="token operator">=</span> oldCh<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+    <span class="token keyword">let</span> oldEndVnode <span class="token operator">=</span> oldCh<span class="token punctuation">[</span>oldEndIdx<span class="token punctuation">]</span>
+    <span class="token keyword">let</span> newEndIdx <span class="token operator">=</span> newCh<span class="token punctuation">.</span>length <span class="token operator">-</span> <span class="token number">1</span>
+    <span class="token keyword">let</span> newStartVnode <span class="token operator">=</span> newCh<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+    <span class="token keyword">let</span> newEndVnode <span class="token operator">=</span> newCh<span class="token punctuation">[</span>newEndIdx<span class="token punctuation">]</span>
+    <span class="token keyword">let</span> oldKeyToIdx
+    <span class="token keyword">let</span> idxInOld
+    <span class="token keyword">let</span> elmToMove
+    <span class="token keyword">let</span> before
+
+    <span class="token comment">// 遍历 oldCh 和 newCh 来比较和更新</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span>oldStartIdx <span class="token operator">&lt;=</span> oldEndIdx <span class="token operator">&amp;&amp;</span> newStartIdx <span class="token operator">&lt;=</span> newEndIdx<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 1⃣️ 首先检查 4 种情况，保证 oldStart/oldEnd/newStart/newEnd</span>
+        <span class="token comment">// 这 4 个 vnode 非空，左侧的 vnode 为空就右移下标，右侧的 vnode 为空就左移 下标。</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>oldStartVnode <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            oldStartVnode <span class="token operator">=</span> oldCh<span class="token punctuation">[</span><span class="token operator">++</span>oldStartIdx<span class="token punctuation">]</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>oldEndVnode <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            oldEndVnode <span class="token operator">=</span> oldCh<span class="token punctuation">[</span><span class="token operator">--</span>oldEndIdx<span class="token punctuation">]</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>newStartVnode <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            newStartVnode <span class="token operator">=</span> newCh<span class="token punctuation">[</span><span class="token operator">++</span>newStartIdx<span class="token punctuation">]</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>newEndVnode <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            newEndVnode <span class="token operator">=</span> newCh<span class="token punctuation">[</span><span class="token operator">--</span>newEndIdx<span class="token punctuation">]</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment">/**
+         * 2⃣️ 然后 oldStartVnode/oldEndVnode/newStartVnode/newEndVnode 两两比较，
+         * 对有相同 vnode 的 4 种情况执行对应的 patch 逻辑。
+         * - 如果同 start 或同 end 的两个 vnode 是相同的（情况 1 和 2），
+         *   说明不用移动实际 dom，直接更新 dom 属性／children 即可；
+         * - 如果 start 和 end 两个 vnode 相同（情况 3 和 4），
+         *   那说明发生了 vnode 的移动，同理我们也要移动 dom。
+         */</span>
+        <span class="token comment">// 1. 如果 oldStartVnode 和 newStartVnode 相同（key相同），执行 patch</span>
+        <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">isSameVnode</span><span class="token punctuation">(</span>oldStartVnode<span class="token punctuation">,</span> newStartVnode<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">// 不需要移动 dom</span>
+            <span class="token function">patchVnode</span><span class="token punctuation">(</span>oldStartVnode<span class="token punctuation">,</span> newStartVnode<span class="token punctuation">,</span> insertedVnodeQueue<span class="token punctuation">)</span>
+            oldStartVnode <span class="token operator">=</span> oldCh<span class="token punctuation">[</span><span class="token operator">++</span>oldStartIdx<span class="token punctuation">]</span>
+            newStartVnode <span class="token operator">=</span> newCh<span class="token punctuation">[</span><span class="token operator">++</span>newStartIdx<span class="token punctuation">]</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment">// 2. 如果 oldEndVnode 和 newEndVnode 相同，执行 patch</span>
+        <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">isSameVnode</span><span class="token punctuation">(</span>oldEndVnode<span class="token punctuation">,</span> newEndVnode<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">// 不需要移动 dom</span>
+            <span class="token function">patchVnode</span><span class="token punctuation">(</span>oldEndVnode<span class="token punctuation">,</span> newEndVnode<span class="token punctuation">,</span> insertedVnodeQueue<span class="token punctuation">)</span>
+            oldEndVnode <span class="token operator">=</span> oldCh<span class="token punctuation">[</span><span class="token operator">--</span>oldEndIdx<span class="token punctuation">]</span>
+            newEndVnode <span class="token operator">=</span> newCh<span class="token punctuation">[</span><span class="token operator">--</span>newEndIdx<span class="token punctuation">]</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment">// 3. 如果 oldStartVnode 和 newEndVnode 相同，执行 patch</span>
+        <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">isSameVnode</span><span class="token punctuation">(</span>oldStartVnode<span class="token punctuation">,</span> newEndVnode<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token function">patchVnode</span><span class="token punctuation">(</span>oldStartVnode<span class="token punctuation">,</span> newEndVnode<span class="token punctuation">,</span> insertedVnodeQueue<span class="token punctuation">)</span>
+            <span class="token comment">// 把获得更新后的 (oldStartVnode/newEndVnode) 的 dom 右移，移动到</span>
+            <span class="token comment">// oldEndVnode 对应的 dom 的右边。为什么这么右移？</span>
+            <span class="token comment">// （1）oldStartVnode 和 newEndVnode 相同，显然是 vnode 右移了。</span>
+            <span class="token comment">// （2）若 while 循环刚开始，那移到 oldEndVnode.elm 右边就是最右边，是合理的；</span>
+            <span class="token comment">// （3）若循环不是刚开始，因为比较过程是两头向中间，那么两头的 dom 的位置已经是</span>
+            <span class="token comment">//     合理的了，移动到 oldEndVnode.elm 右边是正确的位置；</span>
+            <span class="token comment">// （4）记住，oldVnode 和 vnode 是相同的才 patch，且 oldVnode 自己对应的 dom</span>
+            <span class="token comment">//     总是已经存在的，vnode 的 dom 是不存在的，直接复用 oldVnode 对应的 dom。</span>
+            api<span class="token punctuation">.</span><span class="token function">insertBefore</span><span class="token punctuation">(</span>parentElm<span class="token punctuation">,</span> oldStartVnode<span class="token punctuation">.</span>elm<span class="token punctuation">,</span> api<span class="token punctuation">.</span><span class="token function">nextSibling</span><span class="token punctuation">(</span>oldEndVnode<span class="token punctuation">.</span>elm<span class="token punctuation">)</span><span class="token punctuation">)</span>
+            oldStartVnode <span class="token operator">=</span> oldCh<span class="token punctuation">[</span><span class="token operator">++</span>oldStartIdx<span class="token punctuation">]</span>
+            newEndVnode <span class="token operator">=</span> newCh<span class="token punctuation">[</span><span class="token operator">--</span>newEndIdx<span class="token punctuation">]</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment">// 4. 如果 oldEndVnode 和 newStartVnode 相同，执行 patch</span>
+        <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">isSameVnode</span><span class="token punctuation">(</span>oldEndVnode<span class="token punctuation">,</span> newStartVnode<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token function">patchVnode</span><span class="token punctuation">(</span>oldEndVnode<span class="token punctuation">,</span> newStartVnode<span class="token punctuation">,</span> insertedVnodeQueue<span class="token punctuation">)</span>
+            <span class="token comment">// 这里是左移更新后的 dom，原因参考上面的右移。</span>
+            api<span class="token punctuation">.</span><span class="token function">insertBefore</span><span class="token punctuation">(</span>parentElm<span class="token punctuation">,</span> oldEndVnode<span class="token punctuation">.</span>elm<span class="token punctuation">,</span> oldStartVnode<span class="token punctuation">.</span>elm<span class="token punctuation">)</span>
+            oldEndVnode <span class="token operator">=</span> oldCh<span class="token punctuation">[</span><span class="token operator">--</span>oldEndIdx<span class="token punctuation">]</span>
+            newStartVnode <span class="token operator">=</span> newCh<span class="token punctuation">[</span><span class="token operator">++</span>newStartIdx<span class="token punctuation">]</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token comment">// 3⃣️ 最后一种情况：4 个 vnode 都不相同，那么我们就要</span>
+        <span class="token comment">// 1. 从 oldCh 数组建立 key --&gt; index 的 map。</span>
+        <span class="token comment">// 2. 只处理 newStartVnode （简化逻辑，有循环我们最终还是会处理到所有 vnode），</span>
+        <span class="token comment">//    以它的 key 从上面的 map 里拿到 index；</span>
+        <span class="token comment">// 3. 如果 index 存在，那么说明有对应的 old vnode，patch 就好了；</span>
+        <span class="token comment">// 4. 如果 index 不存在，那么说明 newStartVnode 是全新的 vnode，直接</span>
+        <span class="token comment">//    创建对应的 dom 并插入。</span>
+        <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            <span class="token comment">// 如果 oldKeyToIdx 不存在，创建 old children 中 vnode 的 key 到 index 的</span>
+            <span class="token comment">// 映射，方便我们之后通过 key 去拿下标。</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>oldKeyToIdx <span class="token operator">===</span> <span class="token keyword">undefined</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                oldKeyToIdx <span class="token operator">=</span> <span class="token function">createKeyToOldIdx</span><span class="token punctuation">(</span>oldCh<span class="token punctuation">,</span> oldStartIdx<span class="token punctuation">,</span> oldEndIdx<span class="token punctuation">)</span>
+            <span class="token punctuation">}</span>
+            <span class="token comment">// 尝试通过 newStartVnode 的 key 去拿下标</span>
+            idxInOld <span class="token operator">=</span> oldKeyToIdx<span class="token punctuation">[</span>newStartVnode<span class="token punctuation">.</span>key<span class="token punctuation">]</span>
+            <span class="token comment">// 下标不存在，说明 newStartVnode 是全新的 vnode。</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>idxInOld <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token comment">// 那么为 newStartVnode 创建 dom 并插入到 oldStartVnode.elm 的前面。</span>
+                api<span class="token punctuation">.</span><span class="token function">insertBefore</span><span class="token punctuation">(</span>parentElm<span class="token punctuation">,</span> <span class="token function">createElm</span><span class="token punctuation">(</span>newStartVnode<span class="token punctuation">,</span> insertedVnodeQueue<span class="token punctuation">)</span><span class="token punctuation">,</span> oldStartVnode<span class="token punctuation">.</span>elm<span class="token punctuation">)</span>
+                newStartVnode <span class="token operator">=</span> newCh<span class="token punctuation">[</span><span class="token operator">++</span>newStartIdx<span class="token punctuation">]</span>
+            <span class="token punctuation">}</span>
+            <span class="token comment">// 下标存在，说明 old children 中有相同 key 的 vnode，</span>
+            <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                elmToMove <span class="token operator">=</span> oldCh<span class="token punctuation">[</span>idxInOld<span class="token punctuation">]</span>
+                <span class="token comment">// 如果 type 不同，没办法，只能创建新 dom；</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>elmToMove<span class="token punctuation">.</span>type <span class="token operator">!==</span> newStartVnode<span class="token punctuation">.</span>type<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    api<span class="token punctuation">.</span><span class="token function">insertBefore</span><span class="token punctuation">(</span>parentElm<span class="token punctuation">,</span> <span class="token function">createElm</span><span class="token punctuation">(</span>newStartVnode<span class="token punctuation">,</span> insertedVnodeQueue<span class="token punctuation">)</span><span class="token punctuation">,</span> oldStartVnode<span class="token punctuation">.</span>elm<span class="token punctuation">)</span>
+                <span class="token punctuation">}</span>
+                <span class="token comment">// type 相同（且key相同），那么说明是相同的 vnode，执行 patch。</span>
+                <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                    <span class="token function">patchVnode</span><span class="token punctuation">(</span>elmToMove<span class="token punctuation">,</span> newStartVnode<span class="token punctuation">,</span> insertedVnodeQueue<span class="token punctuation">)</span>
+                    oldCh<span class="token punctuation">[</span>idxInOld<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token keyword">undefined</span>
+                    api<span class="token punctuation">.</span><span class="token function">insertBefore</span><span class="token punctuation">(</span>parentElm<span class="token punctuation">,</span> elmToMove<span class="token punctuation">.</span>elm<span class="token punctuation">,</span> oldStartVnode<span class="token punctuation">.</span>elm<span class="token punctuation">)</span>
+                <span class="token punctuation">}</span>
+                newStartVnode <span class="token operator">=</span> newCh<span class="token punctuation">[</span><span class="token operator">++</span>newStartIdx<span class="token punctuation">]</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// 上面的循环结束后（循环条件有两个），处理可能的未处理到的 vnode。</span>
+    <span class="token comment">// 如果是 new vnodes 里有未处理的（oldStartIdx &gt; oldEndIdx</span>
+    <span class="token comment">// 说明 old vnodes 先处理完毕）</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>oldStartIdx <span class="token operator">&gt;</span> oldEndIdx<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        before <span class="token operator">=</span> newCh<span class="token punctuation">[</span>newEndIdx <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token keyword">null</span> <span class="token operator">?</span> <span class="token keyword">null</span> <span class="token punctuation">:</span> newCh<span class="token punctuation">[</span>newEndIdx <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">.</span>elm
+        <span class="token function">addVnodes</span><span class="token punctuation">(</span>parentElm<span class="token punctuation">,</span> before<span class="token punctuation">,</span> newCh<span class="token punctuation">,</span> newStartIdx<span class="token punctuation">,</span> newEndIdx<span class="token punctuation">,</span> insertedVnodeQueue<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment">// 相反，如果 old vnodes 有未处理的，删除 （为处理 vnodes 对应的） 多余的 dom。</span>
+    <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>newStartIdx <span class="token operator">&gt;</span> newEndIdx<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">removeVnodes</span><span class="token punctuation">(</span>parentElm<span class="token punctuation">,</span> oldCh<span class="token punctuation">,</span> oldStartIdx<span class="token punctuation">,</span> oldEndIdx<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>可以看到，这里的整体策略可以总结如下</p> <ol><li>首先从新旧两个子节点列表的头尾（四个指针）开始一个个向中间循环处理，每处理一次有一些指针向中间移动一次（这里算作一次 <code>处理流程</code> ），任意一个列表处理完成便停止循环并作为短的那个列表，相对的作为长的那个列表，长的那个剩下未处理节点的 <code>单独处理</code></li> <li>每一次 <code>处理流程</code> 都做以下几件事情
+<ul><li>边界情况处理：四个指针校验非空，否则向中间移动并跳出流程</li> <li>四个指针分别两两比较判断是否是同一个节点（① 旧头=新头，② 旧尾=新尾，③ 旧头=新尾，④ 旧尾=新头），命中则执行相应操作并跳出流程
+<ul><li>① 旧头=新头 - 当前不需要移动 dom，执行 patchVNode 比较两个指针对应的节点，同时新头、旧头指针直接右移</li> <li>② 旧尾=新尾 - 当前不需要移动 dom，执行 patchVNode 比较两个指针对应的节点，同时新头、旧头指针直接左移</li> <li>③ 旧头=新尾 - 当前需要将旧头 dom 插入到新尾对应的节点末尾，执行 patchVNode 比较两个指针对应的节点，同时移动俩指针</li> <li>④ 旧尾=新头 - 当前需要将旧尾 dom 插入到新头对应的节点开头，执行 patchVNode 比较两个指针对应的节点，同时移动俩指针</li></ul></li> <li>两两比较均未命中，则取出当前新头节点的VNode，分别于剩下未处理的旧的节点列表一一比较
+<ul><li>若是同一个节点，则比较节点类型，相同则执行 patchVNode，不同则创建新的节点插入</li> <li>若不是同一个节点，则直接创建新的节点插入</li></ul></li></ul></li> <li>循环停止后，需要 <code>单独处理</code> 长的那个列表的未处理字段
+<ul><li>若新的列表较长（存在未处理节点），则将多出的节点添加至旧的列表头尾指针交汇处</li> <li>若旧的列表较长（存在未处理节点），则将多出的节点删除</li></ul></li></ol> <hr> <h3 id="hook"><a href="#hook" class="header-anchor">#</a> hook</h3> <p>snabbdom 提供的生命周期</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">/**
+ * snabbdom 提供的生命周期
+ */</span>
+<span class="token keyword">const</span> hooks <span class="token operator">=</span> <span class="token punctuation">[</span>
+    pre<span class="token operator">?</span><span class="token punctuation">:</span> PreHook<span class="token punctuation">;</span> <span class="token comment">/*               patch 流程开始 */</span>
+    init<span class="token operator">?</span><span class="token punctuation">:</span> InitHook<span class="token punctuation">;</span> <span class="token comment">/*             一个新的 VNode 被创建 */</span>
+    create<span class="token operator">?</span><span class="token punctuation">:</span> CreateHook<span class="token punctuation">;</span> <span class="token comment">/*         VNode 上一个新的真实DOM被创建 */</span>
+    insert<span class="token operator">?</span><span class="token punctuation">:</span> InsertHook<span class="token punctuation">;</span> <span class="token comment">/*         更新后的DOM节点被挂载到根节点（真实情况是在patch的过程中收集insert回调，待一次更新后统一执行） */</span>
+    prepatch<span class="token operator">?</span><span class="token punctuation">:</span> PrePatchHook<span class="token punctuation">;</span> <span class="token comment">/*     patchVnode 流程开始 */</span>
+    update<span class="token operator">?</span><span class="token punctuation">:</span> UpdateHook<span class="token punctuation">;</span> <span class="token comment">/*         patchVnode 的过程中若 vnode.data 不为空，则触发该钩子更新 data */</span>
+    postpatch<span class="token operator">?</span><span class="token punctuation">:</span> PostPatchHook<span class="token punctuation">;</span> <span class="token comment">/*   patchVnode 流程结束 */</span>
+    destroy<span class="token operator">?</span><span class="token punctuation">:</span> DestroyHook<span class="token punctuation">;</span> <span class="token comment">/*       一个 DOM 被直接或间接移除 */</span>
+    remove<span class="token operator">?</span><span class="token punctuation">:</span> RemoveHook<span class="token punctuation">;</span> <span class="token comment">/*         一个 DOM 被直接移除 */</span>
+    post<span class="token operator">?</span><span class="token punctuation">:</span> PostHook<span class="token punctuation">;</span> <span class="token comment">/*             patch 流程结束 */</span>
+<span class="token punctuation">]</span><span class="token punctuation">;</span>
+</code></pre></div><p>其中 <code>const hooks = ['pre', 'create', 'update', 'destroy', 'remove', 'post']</code> 这几个生命周期的回调是可以通过 init 接口选择性注入进来的（在上面的 init 入口描述了这样注册的好处），各模块需要提供对应生命周期需要执行的回调，在 init 中会根据该 hooks 列表聚合每个模块提供的回调，生成类似于下面这种结构：（这可以说是 snabbdom 的生命周期钩子挂载方式）</p> <div class="language-js extra-class"><pre class="language-js"><code>modules<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+        create<span class="token punctuation">:</span> updateClassName<span class="token punctuation">,</span>
+        update<span class="token punctuation">:</span> updateClassName
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>
+        create<span class="token punctuation">:</span> updateStyle<span class="token punctuation">,</span>
+        update<span class="token punctuation">:</span> updateStyle
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token operator">...</span>
+<span class="token punctuation">]</span>
+🔽🔽🔽🔽 聚合 🔽🔽🔽🔽
+cbs<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    create<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+        updateClassName<span class="token punctuation">,</span> updateStyle
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+    update<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+        updateClassName<span class="token punctuation">,</span> updateStyle
+    <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>另外在生成 VNode 的时候传入的结构化数据上也可以通过 <code>data.hooks</code> 携带一些回调函数进来，主要目的还是在 snabbdom 运行到一定生命周期时触发一些副作用，同时挂载在 VNode 上的钩子来自于各结构化数据，这也是一种符合模块化开发的设计方式，更好的关注点分离</p> <h2 id="总结"><a href="#总结" class="header-anchor">#</a> 总结</h2> <p>总结一下 snabbdom 的 DOM-diff 算法策略：</p> <ol><li>执行 patch 比较两个 VNode 节点的异同</li> <li>若为不同的节点，直接舍弃，生成新的节点</li> <li>若为相同的节点，执行 patchVnode 比较新旧两个节点的子节点</li> <li>patchVnode 中比较两个 VNode 的子节点，若都存在子节点则执行 updateChildren 逐条比较，否则直接更新子节点</li> <li>updateChildren 中比较两个 VNode 的子节点列表，从两头向中间逐层向中间检索，找到最小更新</li></ol></div> <footer class="page-edit"><!----> <div class="last-updated"><span class="prefix">Last Updated: </span> <span class="time">1/9/2020, 9:31:44 AM</span></div></footer> <div class="page-nav"><p class="inner"><!----> <span class="next"><a href="/blog/whatever/客户行为收集sdk项目记录.html">
+          客户行为收集sdk项目记录
+        </a>
+        →
+      </span></p></div> </main> <!----> <div class="comments-wrapper" data-v-ad130a7c><!----></div></div></div></div></div></div><div class="global-ui"><div class="back-to-ceiling" style="right:1rem;bottom:6rem;width:2.5rem;height:2.5rem;border-radius:.25rem;line-height:2.5rem;display:none;" data-v-a81d141e data-v-a81d141e><svg t="1574745035067" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5404" class="icon" data-v-a81d141e><path d="M526.60727968 10.90185116a27.675 27.675 0 0 0-29.21455937 0c-131.36607665 82.28402758-218.69155461 228.01873535-218.69155402 394.07834331a462.20625001 462.20625001 0 0 0 5.36959153 69.94390903c1.00431239 6.55289093-0.34802892 13.13561351-3.76865779 18.80351572-32.63518765 54.11355614-51.75690182 118.55860487-51.7569018 187.94566865a371.06718723 371.06718723 0 0 0 11.50484808 91.98906777c6.53300375 25.50556257 41.68394495 28.14064038 52.69160883 4.22606766 17.37162448-37.73630017 42.14135425-72.50938081 72.80769204-103.21549295 2.18761121 3.04276886 4.15646224 6.24463696 6.40373557 9.22774369a1871.4375 1871.4375 0 0 0 140.04691725 5.34970492 1866.36093723 1866.36093723 0 0 0 140.04691723-5.34970492c2.24727335-2.98310674 4.21612437-6.18497483 6.3937923-9.2178004 30.66633723 30.70611158 55.4360664 65.4791928 72.80769147 103.21549355 11.00766384 23.91457269 46.15860503 21.27949489 52.69160879-4.22606768a371.15156223 371.15156223 0 0 0 11.514792-91.99901164c0-69.36717486-19.13165746-133.82216804-51.75690182-187.92578088-3.42062944-5.66790279-4.76302748-12.26056868-3.76865837-18.80351632a462.20625001 462.20625001 0 0 0 5.36959269-69.943909c-0.00994388-166.08943902-87.32547796-311.81420293-218.6915546-394.09823051zM605.93803103 357.87693858a93.93749974 93.93749974 0 1 1-187.89594924 6.1e-7 93.93749974 93.93749974 0 0 1 187.89594924-6.1e-7z" p-id="5405" data-v-a81d141e></path><path d="M429.50777625 765.63860547C429.50777625 803.39355007 466.44236686 1000.39046097 512.00932183 1000.39046097c45.56695499 0 82.4922232-197.00623328 82.5015456-234.7518555 0-37.75494459-36.9345906-68.35043303-82.4922232-68.34111062-45.57627738-0.00932239-82.52019037 30.59548842-82.51086798 68.34111062z" p-id="5406" data-v-a81d141e></path></svg></div></div></div>
+    <script src="/blog/assets/js/app.49d49959.js" defer></script><script src="/blog/assets/js/3.66f9ff46.js" defer></script><script src="/blog/assets/js/1.0064e023.js" defer></script><script src="/blog/assets/js/52.34197678.js" defer></script>
+  </body>
+</html>
